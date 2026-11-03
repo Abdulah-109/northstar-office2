@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="de" class="h-full bg-[#F5F1E8] text-[#34312D]">
+<html lang="de" class="h-full bg-[#F5F1E8] text-[#34312D]" id="html-root">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Northstar 3.0 – Personal Office (Beige Edition)</title>
+  <title>Northstar 3.0 – Custom Color Edition</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,14 +19,14 @@
         extend: {
           colors: {
             beige: {
-              bg: '#F5F1E8',
-              sidebar: '#EAE2D5',
-              card: '#FFFDF8',
-              border: '#DED5C8',
-              accent: '#C8B69B',
-              accentHover: '#B5A182',
-              text: '#34312D',
-              muted: '#81796F'
+              bg: 'var(--color-bg, #F5F1E8)',
+              sidebar: 'var(--color-sidebar, #EAE2D5)',
+              card: 'var(--color-card, #FFFDF8)',
+              border: 'var(--color-border, #DED5C8)',
+              accent: 'var(--color-accent, #C8B69B)',
+              accentHover: 'var(--color-accent-hover, #B5A182)',
+              text: 'var(--color-text, #34312D)',
+              muted: 'var(--color-muted, #81796F)'
             }
           }
         }
@@ -38,24 +38,24 @@
     body {
       font-family: 'Inter', sans-serif;
       -webkit-tap-highlight-color: transparent;
-      background-color: #F5F1E8;
-      color: #34312D;
+      background-color: var(--color-bg, #F5F1E8);
+      color: var(--color-text, #34312D);
     }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #F5F1E8; }
-    ::-webkit-scrollbar-thumb { background: #DED5C8; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #C8B69B; }
+    ::-webkit-scrollbar-track { background: var(--color-bg, #F5F1E8); }
+    ::-webkit-scrollbar-thumb { background: var(--color-border, #DED5C8); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-accent, #C8B69B); }
   </style>
 </head>
-<body class="h-full flex flex-col md:flex-row overflow-hidden antialiased selection:bg-[#C8B69B] selection:text-white">
+<body class="h-full flex flex-col md:flex-row overflow-hidden antialiased selection:bg-[#C8B69B] selection:text-white" id="body-root">
 
   <!-- MOBILE HEADER -->
-  <div class="md:hidden flex items-center justify-between px-4 py-3.5 bg-[#EAE2D5] border-b border-[#DED5C8] z-30 shrink-0">
+  <div class="md:hidden flex items-center justify-between px-4 py-3.5 bg-[var(--color-sidebar,#EAE2D5)] border-b border-[var(--color-border,#DED5C8)] z-30 shrink-0">
     <div class="flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-xl bg-[#C8B69B] flex items-center justify-center font-black text-white shadow-sm">N</div>
-      <span class="font-bold text-lg tracking-wider text-[#34312D]">NORTHSTAR 3.0</span>
+      <div class="w-8 h-8 rounded-xl bg-[var(--color-accent,#C8B69B)] flex items-center justify-center font-black text-white shadow-sm">N</div>
+      <span class="font-bold text-lg tracking-wider text-[var(--color-text,#34312D)]">NORTHSTAR 3.0</span>
     </div>
-    <button onclick="toggleMobileMenu()" class="p-2 rounded-xl bg-[#FFFDF8] border border-[#DED5C8] text-[#34312D]">
+    <button onclick="toggleMobileMenu()" class="p-2 rounded-xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] text-[var(--color-text,#34312D)]">
       <i data-lucide="menu" class="w-6 h-6"></i>
     </button>
   </div>
@@ -64,70 +64,70 @@
   <div id="sidebar-backdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/30 backdrop-blur-xs z-40 hidden md:hidden transition-opacity"></div>
 
   <!-- SIDEBAR NAVIGATION -->
-  <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-[#EAE2D5] border-r border-[#DED5C8] z-50 flex flex-col transform -translate-x-full md:translate-x-0 md:static transition-transform duration-200 shrink-0">
-    <div class="p-5 border-b border-[#DED5C8] flex items-center justify-between">
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-[var(--color-sidebar,#EAE2D5)] border-r border-[var(--color-border,#DED5C8)] z-50 flex flex-col transform -translate-x-full md:translate-x-0 md:static transition-transform duration-200 shrink-0">
+    <div class="p-5 border-b border-[var(--color-border,#DED5C8)] flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-[#C8B69B] flex items-center justify-center font-black text-white text-xl shadow-sm">
+        <div class="w-10 h-10 rounded-xl bg-[var(--color-accent,#C8B69B)] flex items-center justify-center font-black text-white text-xl shadow-sm">
           N
         </div>
         <div>
-          <h1 class="font-extrabold text-base tracking-wider text-[#34312D] leading-none">NORTHSTAR</h1>
-          <p class="text-[10px] text-[#81796F] font-bold tracking-widest uppercase mt-1">Executive Suite v3.0</p>
+          <h1 class="font-extrabold text-base tracking-wider text-[var(--color-text,#34312D)] leading-none">NORTHSTAR</h1>
+          <p class="text-[10px] text-[var(--color-muted,#81796F)] font-bold tracking-widest uppercase mt-1">Executive Suite v3.0</p>
         </div>
       </div>
-      <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-[#81796F] hover:text-[#34312D]">
+      <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-[var(--color-muted,#81796F)] hover:text-[var(--color-text,#34312D)]">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
     </div>
 
     <!-- Navigation Menu Items -->
     <nav class="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
-      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition bg-[#C8B69B] text-white shadow-sm">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition bg-[var(--color-accent,#C8B69B)] text-white shadow-sm">
         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
         <span>Dashboard</span>
       </button>
 
-      <button onclick="switchTab('school')" id="nav-school" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[#34312D] hover:bg-[#FFFDF8]/60">
-        <i data-lucide="graduation-cap" class="w-4 h-4 text-[#81796F]"></i>
+      <button onclick="switchTab('school')" id="nav-school" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[var(--color-text,#34312D)] hover:bg-[var(--color-card,#FFFDF8)]/60">
+        <i data-lucide="graduation-cap" class="w-4 h-4 text-[var(--color-muted,#81796F)]"></i>
         <span>School Office</span>
       </button>
 
-      <button onclick="switchTab('business')" id="nav-business" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[#34312D] hover:bg-[#FFFDF8]/60">
-        <i data-lucide="briefcase" class="w-4 h-4 text-[#81796F]"></i>
+      <button onclick="switchTab('business')" id="nav-business" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[var(--color-text,#34312D)] hover:bg-[var(--color-card,#FFFDF8)]/60">
+        <i data-lucide="briefcase" class="w-4 h-4 text-[var(--color-muted,#81796F)]"></i>
         <span>Business Office</span>
       </button>
 
-      <button onclick="switchTab('management')" id="nav-management" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[#34312D] hover:bg-[#FFFDF8]/60">
-        <i data-lucide="calendar" class="w-4 h-4 text-[#81796F]"></i>
+      <button onclick="switchTab('management')" id="nav-management" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[var(--color-text,#34312D)] hover:bg-[var(--color-card,#FFFDF8)]/60">
+        <i data-lucide="calendar" class="w-4 h-4 text-[var(--color-muted,#81796F)]"></i>
         <span>Management Office</span>
       </button>
 
-      <button onclick="switchTab('center')" id="nav-center" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[#34312D] hover:bg-[#FFFDF8]/60">
-        <i data-lucide="search" class="w-4 h-4 text-[#81796F]"></i>
+      <button onclick="switchTab('center')" id="nav-center" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[var(--color-text,#34312D)] hover:bg-[var(--color-card,#FFFDF8)]/60">
+        <i data-lucide="search" class="w-4 h-4 text-[var(--color-muted,#81796F)]"></i>
         <span>Center (Google)</span>
       </button>
 
-      <button onclick="switchTab('einstellungen')" id="nav-einstellungen" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[#34312D] hover:bg-[#FFFDF8]/60">
-        <i data-lucide="settings" class="w-4 h-4 text-[#81796F]"></i>
-        <span>Einstellungen</span>
+      <button onclick="switchTab('einstellungen')" id="nav-einstellungen" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[var(--color-text,#34312D)] hover:bg-[var(--color-card,#FFFDF8)]/60">
+        <i data-lucide="settings" class="w-4 h-4 text-[var(--color-muted,#81796F)]"></i>
+        <span>Einstellungen & Design</span>
       </button>
     </nav>
 
     <!-- Pomodoro Focus Widget -->
-    <div class="p-3.5 mx-3 mb-4 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs">
+    <div class="p-3.5 mx-3 mb-4 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs">
       <div class="flex items-center justify-between mb-2">
-        <span class="text-xs font-bold text-[#81796F] flex items-center gap-1.5">
-          <i data-lucide="timer" class="w-4 h-4 text-[#C8B69B]"></i> Focus Timer
+        <span class="text-xs font-bold text-[var(--color-muted,#81796F)] flex items-center gap-1.5">
+          <i data-lucide="timer" class="w-4 h-4 text-[var(--color-accent,#C8B69B)]"></i> Focus Timer
         </span>
-        <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-[#EAE2D5] text-[#34312D]">Pomodoro</span>
+        <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-text,#34312D)]">Pomodoro</span>
       </div>
       <div class="flex items-center justify-between">
-        <button onclick="promptTimerMinutes()" title="Klicken zum Ändern" class="text-2xl font-black font-mono text-[#34312D] hover:text-[#C8B69B] transition cursor-pointer" id="timer-display">25:00</button>
+        <button onclick="promptTimerMinutes()" title="Klicken zum Ändern" class="text-2xl font-black font-mono text-[var(--color-text,#34312D)] hover:text-[var(--color-accent,#C8B69B)] transition cursor-pointer" id="timer-display">25:00</button>
         <div class="flex items-center gap-1.5">
-          <button onclick="toggleTimer()" id="timer-btn" class="p-2.5 rounded-xl bg-[#C8B69B] hover:bg-[#B5A182] text-white transition shadow-xs">
+          <button onclick="toggleTimer()" id="timer-btn" class="p-2.5 rounded-xl bg-[var(--color-accent,#C8B69B)] hover:opacity-90 text-white transition shadow-xs">
             <i data-lucide="play" class="w-4 h-4" id="timer-icon"></i>
           </button>
-          <button onclick="resetTimer()" class="p-2.5 rounded-xl bg-[#EAE2D5] hover:bg-[#DED5C8] text-[#34312D] transition">
+          <button onclick="resetTimer()" class="p-2.5 rounded-xl bg-[var(--color-sidebar,#EAE2D5)] hover:opacity-90 text-[var(--color-text,#34312D)] transition">
             <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
           </button>
         </div>
@@ -136,82 +136,82 @@
   </aside>
 
   <!-- MAIN WORKSPACE CONTENT -->
-  <main class="flex-1 overflow-y-auto bg-[#F5F1E8] relative p-4 md:p-8">
+  <main class="flex-1 overflow-y-auto bg-[var(--color-bg,#F5F1E8)] relative p-4 md:p-8">
 
     <!-- ================= DASHBOARD ================= -->
     <section id="section-dashboard" class="content-section space-y-6">
-      <div class="bg-[#FFFDF8] p-6 rounded-2xl border border-[#DED5C8] shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="bg-[var(--color-card,#FFFDF8)] p-6 rounded-2xl border border-[var(--color-border,#DED5C8)] shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <div class="flex items-center gap-2 text-[#81796F] text-xs font-bold mb-1">
-            <i data-lucide="calendar" class="w-4 h-4 text-[#C8B69B]"></i>
+          <div class="flex items-center gap-2 text-[var(--color-muted,#81796F)] text-xs font-bold mb-1">
+            <i data-lucide="calendar" class="w-4 h-4 text-[var(--color-accent,#C8B69B)]"></i>
             <span id="dash-date-str">--.--.----</span>
           </div>
-          <h2 class="text-2xl md:text-3xl font-extrabold text-[#34312D]">Guten Tag, Geschäftsführer.</h2>
-          <p class="text-xs md:text-sm text-[#81796F] mt-1">Zentrale Steuerung für Schule, Unternehmen und persönliche Führung.</p>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-[var(--color-text,#34312D)]">Guten Tag, Geschäftsführer.</h2>
+          <p class="text-xs md:text-sm text-[var(--color-muted,#81796F)] mt-1">Zentrale Steuerung für Schule, Unternehmen und persönliche Führung.</p>
         </div>
-        <button onclick="switchTab('management')" class="px-4 py-3 rounded-xl bg-[#C8B69B] hover:bg-[#B5A182] text-white font-semibold text-xs transition flex items-center gap-2 shadow-xs shrink-0 active:scale-95">
+        <button onclick="switchTab('management')" class="px-4 py-3 rounded-xl bg-[var(--color-accent,#C8B69B)] text-white font-semibold text-xs transition flex items-center gap-2 shadow-xs shrink-0 active:scale-95">
           <i data-lucide="plus" class="w-4 h-4"></i> Neue Aufgabe
         </button>
       </div>
 
       <!-- KPI Overview Grid -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="p-4 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs">
-          <p class="text-xs font-bold text-[#81796F]">Offene Aufgaben</p>
+        <div class="p-4 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs">
+          <p class="text-xs font-bold text-[var(--color-muted,#81796F)]">Offene Aufgaben</p>
           <div class="flex items-baseline justify-between mt-2">
-            <span class="text-2xl font-extrabold text-[#34312D]" id="dash-open-tasks">0</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#EAE2D5] text-[#81796F]">Management</span>
+            <span class="text-2xl font-extrabold text-[var(--color-text,#34312D)]" id="dash-open-tasks">0</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-muted,#81796F)]">Management</span>
           </div>
         </div>
 
-        <div class="p-4 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs">
-          <p class="text-xs font-bold text-[#81796F]">Lernfortschritt</p>
+        <div class="p-4 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs">
+          <p class="text-xs font-bold text-[var(--color-muted,#81796F)]">Lernfortschritt</p>
           <div class="flex items-baseline justify-between mt-2">
-            <span class="text-2xl font-extrabold text-[#34312D]" id="dash-school-progress">0%</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#EAE2D5] text-[#81796F]">School</span>
+            <span class="text-2xl font-extrabold text-[var(--color-text,#34312D)]" id="dash-school-progress">0%</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-muted,#81796F)]">School</span>
           </div>
         </div>
 
-        <div class="p-4 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs">
-          <p class="text-xs font-bold text-[#81796F]">Monatsgewinn (Business)</p>
+        <div class="p-4 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs">
+          <p class="text-xs font-bold text-[var(--color-muted,#81796F)]">Monatsgewinn (Business)</p>
           <div class="flex items-baseline justify-between mt-2">
-            <span class="text-2xl font-extrabold text-[#34312D]" id="dash-business-profit">0 €</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#EAE2D5] text-[#81796F]">Finanzen</span>
+            <span class="text-2xl font-extrabold text-[var(--color-text,#34312D)]" id="dash-business-profit">0 €</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-muted,#81796F)]">Finanzen</span>
           </div>
         </div>
 
-        <div class="p-4 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs">
-          <p class="text-xs font-bold text-[#81796F]">Notenschnitt</p>
+        <div class="p-4 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs">
+          <p class="text-xs font-bold text-[var(--color-muted,#81796F)]">Notenschnitt</p>
           <div class="flex items-baseline justify-between mt-2">
-            <span class="text-2xl font-extrabold text-[#34312D]" id="dash-grade-avg">0.0</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#EAE2D5] text-[#81796F]">Fachabi</span>
+            <span class="text-2xl font-extrabold text-[var(--color-text,#34312D)]" id="dash-grade-avg">0.0</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-muted,#81796F)]">Fachabi</span>
           </div>
         </div>
       </div>
 
       <!-- Dashboard Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs space-y-4">
-          <div class="flex items-center justify-between border-b border-[#DED5C8] pb-3">
-            <h3 class="text-base font-bold text-[#34312D] flex items-center gap-2">
-              <i data-lucide="clock" class="w-4 h-4 text-[#C8B69B]"></i> Was steht heute an?
+        <div class="lg:col-span-2 p-5 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs space-y-4">
+          <div class="flex items-center justify-between border-b border-[var(--color-border,#DED5C8)] pb-3">
+            <h3 class="text-base font-bold text-[var(--color-text,#34312D)] flex items-center gap-2">
+              <i data-lucide="clock" class="w-4 h-4 text-[var(--color-accent,#C8B69B)]"></i> Was steht heute an?
             </h3>
-            <button onclick="switchTab('management')" class="text-xs text-[#81796F] hover:text-[#34312D] font-semibold">Zum Management &rarr;</button>
+            <button onclick="switchTab('management')" class="text-xs text-[var(--color-muted,#81796F)] hover:text-[var(--color-text,#34312D)] font-semibold">Zum Management &rarr;</button>
           </div>
           <div id="dash-today-list" class="space-y-2.5"></div>
         </div>
 
         <div class="space-y-6">
-          <div class="p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs space-y-3">
-            <div class="flex items-center gap-2 text-[#C8B69B] font-bold text-xs">
+          <div class="p-5 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs space-y-3">
+            <div class="flex items-center gap-2 text-[var(--color-accent,#C8B69B)] font-bold text-xs">
               <i data-lucide="zap" class="w-4 h-4"></i> Empfohlener nächster Schritt
             </div>
             <div id="dash-next-step"></div>
           </div>
 
-          <div class="p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs space-y-3">
-            <h3 class="text-sm font-bold text-[#34312D] flex items-center gap-2">
-              <i data-lucide="target" class="w-4 h-4 text-[#81796F]"></i> Wochenziele
+          <div class="p-5 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs space-y-3">
+            <h3 class="text-sm font-bold text-[var(--color-text,#34312D)] flex items-center gap-2">
+              <i data-lucide="target" class="w-4 h-4 text-[var(--color-muted,#81796F)]"></i> Wochenziele
             </h3>
             <div id="dash-goals-summary" class="space-y-2"></div>
           </div>
@@ -223,61 +223,59 @@
     <section id="section-school" class="content-section space-y-6 hidden">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-bold text-[#34312D]">School Office – Fachabi</h2>
-          <p class="text-xs text-[#81796F] mt-1">Fächer, Themen, Notenverwaltung und verständnisbasierte Lernkontrolle.</p>
+          <h2 class="text-2xl font-bold text-[var(--color-text,#34312D)]">School Office – Fachabi</h2>
+          <p class="text-xs text-[var(--color-muted,#81796F)] mt-1">Fächer, Themen, Notenverwaltung und verständnisbasierte Lernkontrolle.</p>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="openNewExamModal()" class="px-3.5 py-2.5 rounded-xl bg-[#EAE2D5] hover:bg-[#DED5C8] text-[#34312D] font-semibold text-xs border border-[#DED5C8]">
+          <button onclick="openNewExamModal()" class="px-3.5 py-2.5 rounded-xl bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-text,#34312D)] font-semibold text-xs border border-[var(--color-border,#DED5C8)]">
             + Arbeit / Note
           </button>
-          <button onclick="openNewSubjectModal()" class="px-4 py-2.5 rounded-xl bg-[#C8B69B] hover:bg-[#B5A182] text-white font-semibold text-xs shadow-xs">
+          <button onclick="openNewSubjectModal()" class="px-4 py-2.5 rounded-xl bg-[var(--color-accent,#C8B69B)] text-white font-semibold text-xs shadow-xs">
             + Neues Fach
           </button>
         </div>
       </div>
 
-      <!-- Fächer Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="school-subjects-grid"></div>
 
       <!-- Topic Details Box -->
-      <div id="school-topic-detail" class="p-6 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-6 hidden shadow-sm">
-        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-[#DED5C8] pb-4 gap-3">
+      <div id="school-topic-detail" class="p-6 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] space-y-6 hidden shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-[var(--color-border,#DED5C8)] pb-4 gap-3">
           <div>
-            <span id="school-detail-subject-tag" class="text-[10px] font-bold uppercase tracking-wider text-[#34312D] bg-[#EAE2D5] px-2.5 py-0.5 rounded border border-[#DED5C8]">Fach</span>
-            <h3 id="school-detail-topic-title" class="text-xl font-extrabold text-[#34312D] mt-1">Themenübersicht</h3>
+            <span id="school-detail-subject-tag" class="text-[10px] font-bold uppercase tracking-wider text-[var(--color-text,#34312D)] bg-[var(--color-sidebar,#EAE2D5)] px-2.5 py-0.5 rounded border border-[var(--color-border,#DED5C8)]">Fach</span>
+            <h3 id="school-detail-topic-title" class="text-xl font-extrabold text-[var(--color-text,#34312D)] mt-1">Themenübersicht</h3>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="deleteCurrentTopic()" class="px-3 py-1.5 bg-[#F5F1E8] hover:bg-red-50 text-red-700 rounded-xl text-xs font-semibold border border-[#DED5C8]">Thema löschen</button>
-            <button onclick="closeTopicDetail()" class="p-2 text-[#81796F] hover:text-[#34312D] rounded-xl bg-[#EAE2D5] border border-[#DED5C8]"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <button onclick="deleteCurrentTopic()" class="px-3 py-1.5 bg-[var(--color-bg,#F5F1E8)] text-red-700 rounded-xl text-xs font-semibold border border-[var(--color-border,#DED5C8)]">Thema löschen</button>
+            <button onclick="closeTopicDetail()" class="p-2 text-[var(--color-muted,#81796F)] rounded-xl bg-[var(--color-sidebar,#EAE2D5)] border border-[var(--color-border,#DED5C8)]"><i data-lucide="x" class="w-5 h-5"></i></button>
           </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <h4 class="text-sm font-bold text-[#34312D]">Unterthemen & Lernstatus</h4>
-              <button onclick="promptAddSubtopic()" class="text-xs text-[#81796F] hover:text-[#34312D] font-bold">+ Unterthema</button>
+              <h4 class="text-sm font-bold text-[var(--color-text,#34312D)]">Unterthemen & Lernstatus</h4>
+              <button onclick="promptAddSubtopic()" class="text-xs text-[var(--color-muted,#81796F)] font-bold">+ Unterthema</button>
             </div>
             <div id="school-subtopics-list" class="space-y-2"></div>
           </div>
           <div class="space-y-4">
-            <h4 class="text-sm font-bold text-[#34312D]">Zusammenfassungen & Notizen</h4>
-            <textarea id="school-topic-notes" oninput="saveTopicNotes()" rows="10" placeholder="Merksätze, Formeln und Erklärungen eingeben..." class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl p-4 text-xs text-[#34312D] focus:outline-none focus:border-[#C8B69B] font-mono leading-relaxed"></textarea>
+            <h4 class="text-sm font-bold text-[var(--color-text,#34312D)]">Zusammenfassungen & Notizen</h4>
+            <textarea id="school-topic-notes" oninput="saveTopicNotes()" rows="10" placeholder="Merksätze, Formeln und Erklärungen eingeben..." class="w-full bg-[var(--color-bg,#F5F1E8)] border border-[var(--color-border,#DED5C8)] rounded-xl p-4 text-xs text-[var(--color-text,#34312D)] focus:outline-none font-mono leading-relaxed"></textarea>
           </div>
         </div>
       </div>
 
-      <!-- Exams & Grades Table -->
-      <div class="p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-4 shadow-xs">
-        <div class="flex items-center justify-between border-b border-[#DED5C8] pb-3">
-          <h3 class="text-base font-bold text-[#34312D] flex items-center gap-2">
-            <i data-lucide="award" class="w-4 h-4 text-[#C8B69B]"></i> Klassenarbeiten & Notenspiegel
+      <div class="p-5 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] space-y-4 shadow-xs">
+        <div class="flex items-center justify-between border-b border-[var(--color-border,#DED5C8)] pb-3">
+          <h3 class="text-base font-bold text-[var(--color-text,#34312D)] flex items-center gap-2">
+            <i data-lucide="award" class="w-4 h-4 text-[var(--color-accent,#C8B69B)]"></i> Klassenarbeiten & Notenspiegel
           </h3>
-          <span class="text-xs font-bold text-[#81796F]" id="school-avg-badge">Schnitt: 0.0</span>
+          <span class="text-xs font-bold text-[var(--color-muted,#81796F)]" id="school-avg-badge">Schnitt: 0.0</span>
         </div>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-[#34312D]">
-            <thead class="bg-[#EAE2D5] text-[#81796F] uppercase font-bold text-[10px]">
+          <table class="w-full text-left text-xs text-[var(--color-text,#34312D)]">
+            <thead class="bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-muted,#81796F)] uppercase font-bold text-[10px]">
               <tr>
                 <th class="p-3 rounded-l-xl">Fach</th>
                 <th class="p-3">Klausur / Thema</th>
@@ -287,7 +285,7 @@
                 <th class="p-3 rounded-r-xl text-right">Aktion</th>
               </tr>
             </thead>
-            <tbody id="school-exams-table-body" class="divide-y divide-[#DED5C8]"></tbody>
+            <tbody id="school-exams-table-body" class="divide-y divide-[var(--color-border,#DED5C8)]"></tbody>
           </table>
         </div>
       </div>
@@ -297,1189 +295,41 @@
     <section id="section-business" class="content-section space-y-6 hidden">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-bold text-[#34312D]">Business Office</h2>
-          <p class="text-xs text-[#81796F] mt-1">Unternehmensführung, Produkte, Kunden, Aufträge und automatische Gewinnermittlung.</p>
+          <h2 class="text-2xl font-bold text-[var(--color-text,#34312D)]">Business Office</h2>
+          <p class="text-xs text-[var(--color-muted,#81796F)] mt-1">Unternehmensführung, Produkte, Kunden, Aufträge und automatische Gewinnermittlung.</p>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="openNewTransactionModal()" class="px-3.5 py-2.5 rounded-xl bg-[#EAE2D5] hover:bg-[#DED5C8] text-[#34312D] font-semibold text-xs border border-[#DED5C8]">
+          <button onclick="openNewTransactionModal()" class="px-3.5 py-2.5 rounded-xl bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-text,#34312D)] font-semibold text-xs border border-[var(--color-border,#DED5C8)]">
             + Einnahme / Ausgabe
           </button>
-          <button onclick="openNewCompanyModal()" class="px-4 py-2.5 rounded-xl bg-[#C8B69B] hover:bg-[#B5A182] text-white font-semibold text-xs shadow-xs">
+          <button onclick="openNewCompanyModal()" class="px-4 py-2.5 rounded-xl bg-[var(--color-accent,#C8B69B)] text-white font-semibold text-xs shadow-xs">
             + Unternehmen anlegen
           </button>
         </div>
       </div>
 
-      <!-- Business Selector / Company Card -->
-      <div class="p-6 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] shadow-xs space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#DED5C8] pb-4">
+      <div class="p-6 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--color-border,#DED5C8)] pb-4">
           <div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-[#81796F]">Aktives Unternehmen</span>
-            <h3 class="text-xl font-extrabold text-[#34312D] mt-0.5" id="biz-company-name">Kein Unternehmen angelegt</h3>
-            <p class="text-xs text-[#81796F]" id="biz-company-desc">Erstelle ein Unternehmen, um Produkte und Finanzen zu verwalten.</p>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[var(--color-muted,#81796F)]">Aktives Unternehmen</span>
+            <h3 class="text-xl font-extrabold text-[var(--color-text,#34312D)] mt-0.5" id="biz-company-name">Kein Unternehmen</h3>
+            <p class="text-xs text-[var(--color-muted,#81796F)]" id="biz-company-desc">Erstelle ein Unternehmen...</p>
           </div>
-          <div class="flex items-center gap-3">
-            <select id="biz-company-select" onchange="switchCompany(this.value)" class="bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3 py-2 text-xs text-[#34312D] focus:outline-none"></select>
-          </div>
+          <select id="biz-company-select" onchange="switchCompany(this.value)" class="bg-[var(--color-bg,#F5F1E8)] border border-[var(--color-border,#DED5C8)] rounded-xl px-3 py-2 text-xs text-[var(--color-text,#34312D)] focus:outline-none"></select>
         </div>
 
-        <!-- Financial KPI Dashboard -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-          <div class="p-4 rounded-xl bg-[#F5F1E8] border border-[#DED5C8]">
-            <p class="text-[11px] font-bold text-[#81796F]">Gesamteinnahmen</p>
-            <p class="text-xl font-extrabold text-[#34312D] mt-1" id="biz-kpi-revenue">0 €</p>
+          <div class="p-4 rounded-xl bg-[var(--color-bg,#F5F1E8)] border border-[var(--color-border,#DED5C8)]">
+            <p class="text-[11px] font-bold text-[var(--color-muted,#81796F)]">Einnahmen</p>
+            <p class="text-xl font-extrabold text-[var(--color-text,#34312D)] mt-1" id="biz-kpi-revenue">0 €</p>
           </div>
-          <div class="p-4 rounded-xl bg-[#F5F1E8] border border-[#DED5C8]">
-            <p class="text-[11px] font-bold text-[#81796F]">Gesamtausgaben</p>
-            <p class="text-xl font-extrabold text-[#34312D] mt-1" id="biz-kpi-expenses">0 €</p>
+          <div class="p-4 rounded-xl bg-[var(--color-bg,#F5F1E8)] border border-[var(--color-border,#DED5C8)]">
+            <p class="text-[11px] font-bold text-[var(--color-muted,#81796F)]">Ausgaben</p>
+            <p class="text-xl font-extrabold text-[var(--color-text,#34312D)] mt-1" id="biz-kpi-expenses">0 €</p>
           </div>
-          <div class="p-4 rounded-xl bg-[#F5F1E8] border border-[#DED5C8]">
-            <p class="text-[11px] font-bold text-[#81796F]">Nettogewinn</p>
-            <p class="text-xl font-extrabold text-[#34312D] mt-1" id="biz-kpi-profit">0 €</p>
+          <div class="p-4 rounded-xl bg-[var(--color-bg,#F5F1E8)] border border-[var(--color-border,#DED5C8)]">
+            <p class="text-[11px] font-bold text-[var(--color-muted,#81796F)]">Gewinn</p>
+            <p class="text-xl font-extrabold text-[var(--color-text,#34312D)] mt-1" id="biz-kpi-profit">0 €</p>
           </div>
-          <div class="p-4 rounded-xl bg-[#F5F1E8] border border-[#DED5C8]">
-            <p class="text-[11px] font-bold text-[#81796F]">Gewinnmarge</p>
-            <p class="text-xl font-extrabold text-[#34312D] mt-1" id="biz-kpi-margin">0%</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Products & Customers Sub-Sections -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Products & Services -->
-        <div class="p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-4 shadow-xs">
-          <div class="flex items-center justify-between border-b border-[#DED5C8] pb-3">
-            <h3 class="text-base font-bold text-[#34312D] flex items-center gap-2">
-              <i data-lucide="package" class="w-4 h-4 text-[#C8B69B]"></i> Produkte & Dienstleistungen
-            </h3>
-            <button onclick="promptAddProduct()" class="text-xs text-[#81796F] hover:text-[#34312D] font-bold">+ Produkt</button>
-          </div>
-          <div id="biz-products-list" class="space-y-2"></div>
-        </div>
-
-        <!-- Customers & Orders -->
-        <div class="p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-4 shadow-xs">
-          <div class="flex items-center justify-between border-b border-[#DED5C8] pb-3">
-            <h3 class="text-base font-bold text-[#34312D] flex items-center gap-2">
-              <i data-lucide="users" class="w-4 h-4 text-[#C8B69B]"></i> Kunden & Aufträge
-            </h3>
-            <button onclick="promptAddCustomer()" class="text-xs text-[#81796F] hover:text-[#34312D] font-bold">+ Kunde</button>
-          </div>
-          <div id="biz-customers-list" class="space-y-2"></div>
-        </div>
-      </div>
-
-      <!-- Financial Ledger -->
-      <div class="p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-4 shadow-xs">
-        <h3 class="text-base font-bold text-[#34312D] flex items-center gap-2 border-b border-[#DED5C8] pb-3">
-          <i data-lucide="receipt" class="w-4 h-4 text-[#C8B69B]"></i> Einnahmen- & Ausgabenbuch
-        </h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-[#34312D]">
-            <thead class="bg-[#EAE2D5] text-[#81796F] uppercase font-bold text-[10px]">
-              <tr>
-                <th class="p-3 rounded-l-xl">Datum</th>
-                <th class="p-3">Typ</th>
-                <th class="p-3">Beschreibung</th>
-                <th class="p-3">Kategorie</th>
-                <th class="p-3">Betrag (€)</th>
-                <th class="p-3 rounded-r-xl text-right">Aktion</th>
-              </tr>
-            </thead>
-            <tbody id="biz-ledger-body" class="divide-y divide-[#DED5C8]"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= MANAGEMENT OFFICE ================= -->
-    <section id="section-management" class="content-section space-y-6 hidden">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 class="text-2xl font-bold text-[#34312D]">Management Office</h2>
-          <p class="text-xs text-[#81796F] mt-1">Kalender, Aufgaben, Prioritäten, Habits und Zielkontrolle.</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="promptAddHabit()" class="px-3.5 py-2.5 rounded-xl bg-[#EAE2D5] hover:bg-[#DED5C8] text-[#34312D] font-semibold text-xs border border-[#DED5C8]">
-            + Gewohnheit
-          </button>
-          <button onclick="promptAddGoal()" class="px-4 py-2.5 rounded-xl bg-[#C8B69B] hover:bg-[#B5A182] text-white font-semibold text-xs shadow-xs">
-            + Neues Ziel
-          </button>
-        </div>
-      </div>
-
-      <!-- Add Task Form -->
-      <form onsubmit="handleMgmtTaskSubmit(event)" class="p-4 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] grid grid-cols-1 md:grid-cols-12 gap-3 items-center shadow-xs">
-        <div class="md:col-span-5">
-          <input type="text" id="mgmt-task-title" placeholder="Neue Aufgabe / Termin eingeben..." required class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-        </div>
-        <div class="md:col-span-3">
-          <select id="mgmt-task-cat" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3 py-2 text-xs text-[#34312D] focus:outline-none">
-            <option value="Schule">Schule</option>
-            <option value="Business">Business</option>
-            <option value="Privat" selected>Privat</option>
-          </select>
-        </div>
-        <div class="md:col-span-3">
-          <input type="date" id="mgmt-task-date" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3 py-2 text-xs text-[#34312D] focus:outline-none">
-        </div>
-        <div class="md:col-span-1">
-          <button type="submit" class="w-full py-2 bg-[#C8B69B] hover:bg-[#B5A182] text-white rounded-xl text-xs font-bold shadow-xs">
-            +
-          </button>
-        </div>
-      </form>
-
-      <!-- Tasks List & Habit Tracker -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Tasks List -->
-        <div class="lg:col-span-2 p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-4 shadow-xs">
-          <h3 class="text-base font-bold text-[#34312D] flex items-center justify-between border-b border-[#DED5C8] pb-3">
-            <span>Aufgaben & Deadlines</span>
-            <span class="text-xs text-[#81796F]" id="mgmt-task-count">0 offen</span>
-          </h3>
-          <div id="mgmt-tasks-container" class="space-y-2"></div>
-        </div>
-
-        <!-- Habits & Goals Side Panel -->
-        <div class="space-y-6">
-          <!-- Habit Tracker -->
-          <div class="p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-3 shadow-xs">
-            <h3 class="text-sm font-bold text-[#34312D] flex items-center justify-between border-b border-[#DED5C8] pb-2">
-              <span class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-[#C8B69B]"></i> Habit Tracker</span>
-              <span class="text-[10px] text-[#81796F]">Täglich</span>
-            </h3>
-            <div id="mgmt-habits-container" class="space-y-2"></div>
-          </div>
-
-          <!-- Long Term Goals -->
-          <div class="p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-3 shadow-xs">
-            <h3 class="text-sm font-bold text-[#34312D] flex items-center justify-between border-b border-[#DED5C8] pb-2">
-              <span class="flex items-center gap-2"><i data-lucide="flag" class="w-4 h-4 text-[#C8B69B]"></i> Unternehmens- & Lebensziele</span>
-            </h3>
-            <div id="mgmt-goals-container" class="space-y-2"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= RESEARCH CENTER (GOOGLE) ================= -->
-    <section id="section-center" class="content-section space-y-6 hidden">
-      <div class="text-center max-w-2xl mx-auto space-y-4 pt-6 md:pt-10">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAE2D5] border border-[#DED5C8] text-[#34312D] text-xs font-semibold">
-          <i data-lucide="globe" class="w-3.5 h-3.5 text-[#C8B69B]"></i> Google Search Engine
-        </div>
-        <h2 class="text-3xl md:text-4xl font-black tracking-tight text-[#34312D]">Recherche-Zentrale</h2>
-        <p class="text-xs md:text-sm text-[#81796F]">Nutze das Suchfeld für direkte Google-Abfragen oder steuere Schnellzugriffe an.</p>
-
-        <form onsubmit="handleGoogleSearchSubmit(event)" class="relative max-w-xl mx-auto mt-6">
-          <input type="text" id="google-search-bar" placeholder="Google Suche eingeben & Enter drücken..." required class="w-full bg-[#FFFDF8] border-2 border-[#DED5C8] rounded-2xl py-4 pl-12 pr-28 text-sm text-[#34312D] placeholder-[#81796F] focus:outline-none focus:border-[#C8B69B] shadow-sm transition">
-          <i data-lucide="search" class="w-5 h-5 text-[#81796F] absolute left-4 top-4.5"></i>
-          <button type="submit" class="absolute right-2 top-2 bottom-2 px-4 bg-[#C8B69B] hover:bg-[#B5A182] text-white font-semibold text-xs rounded-xl transition flex items-center justify-center shadow-xs">
-            Suchen
-          </button>
-        </form>
-
-        <div class="flex flex-wrap items-center justify-center gap-3 pt-6">
-          <a href="https://www.google.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#FFFDF8] border border-[#DED5C8] text-xs font-semibold text-[#34312D] hover:bg-[#EAE2D5] flex items-center gap-2 shadow-xs transition">
-            <i data-lucide="search" class="w-4 h-4 text-[#C8B69B]"></i> Google.com
-          </a>
-          <a href="https://www.youtube.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#FFFDF8] border border-[#DED5C8] text-xs font-semibold text-[#34312D] hover:bg-[#EAE2D5] flex items-center gap-2 shadow-xs transition">
-            <i data-lucide="video" class="w-4 h-4 text-[#C8B69B]"></i> YouTube
-          </a>
-          <a href="https://de.wikipedia.org" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#FFFDF8] border border-[#DED5C8] text-xs font-semibold text-[#34312D] hover:bg-[#EAE2D5] flex items-center gap-2 shadow-xs transition">
-            <i data-lucide="book-open" class="w-4 h-4 text-[#C8B69B]"></i> Wikipedia
-          </a>
-          <a href="https://chatgpt.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#FFFDF8] border border-[#DED5C8] text-xs font-semibold text-[#34312D] hover:bg-[#EAE2D5] flex items-center gap-2 shadow-xs transition">
-            <i data-lucide="sparkles" class="w-4 h-4 text-[#C8B69B]"></i> ChatGPT
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= EINSTELLUNGEN ================= -->
-    <section id="section-einstellungen" class="content-section space-y-6 hidden">
-      <div>
-        <h2 class="text-2xl font-bold text-[#34312D]">Einstellungen & Datensicherung</h2>
-        <p class="text-xs text-[#81796F] mt-1">Exportiere deine Daten als Backup, importiere sie neu oder verwalte das System.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-        <div class="p-6 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-4 shadow-xs">
-          <h3 class="text-base font-bold text-[#34312D] flex items-center gap-2">
-            <i data-lucide="database" class="w-4 h-4 text-[#C8B69B]"></i> Daten sichern & Wiederherstellen
-          </h3>
-          <p class="text-xs text-[#81796F] leading-relaxed">
-            Sichere sämtliche Fächer, Noten, Finanzen, Unternehmen und Aufgaben in einer einzigen JSON-Datei.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-3 pt-2">
-            <button onclick="exportDataJSON()" class="px-4 py-2.5 bg-[#C8B69B] hover:bg-[#B5A182] text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shadow-xs">
-              <i data-lucide="download" class="w-4 h-4"></i> Backup exportieren (JSON)
-            </button>
-            <label class="px-4 py-2.5 bg-[#EAE2D5] hover:bg-[#DED5C8] text-[#34312D] rounded-xl text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer border border-[#DED5C8]">
-              <i data-lucide="upload" class="w-4 h-4"></i> Backup importieren
-              <input type="file" id="import-file-input" accept=".json" onchange="importDataJSON(event)" class="hidden">
-            </label>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-4 shadow-xs">
-          <h3 class="text-base font-bold text-[#34312D] flex items-center gap-2">
-            <i data-lucide="alert-triangle" class="w-4 h-4 text-[#81796F]"></i> System zurücksetzen
-          </h3>
-          <p class="text-xs text-[#81796F] leading-relaxed">
-            Setzt alle Daten auf den ursprünglichen Zustand zurück.
-          </p>
-          <div class="pt-2">
-            <button onclick="confirmResetAllData()" class="px-4 py-2.5 bg-[#F5F1E8] hover:bg-red-50 text-red-700 border border-[#DED5C8] rounded-xl text-xs font-semibold">
-              Alle Daten unwiderruflich löschen
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- MODALS -->
-  <!-- MODAL: FACH -->
-  <div id="modal-new-subject" class="fixed inset-0 bg-black/30 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#FFFDF8] border border-[#DED5C8] rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl">
-      <div class="flex items-center justify-between border-b border-[#DED5C8] pb-3">
-        <h3 class="text-base font-bold text-[#34312D]">Neues Schulfach</h3>
-        <button onclick="closeModal('modal-new-subject')" class="text-[#81796F] hover:text-[#34312D]"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-[#81796F] mb-1">Fachname</label>
-        <input type="text" id="input-subject-name" placeholder="z. B. Betriebswirtschaftslehre" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-      </div>
-      <div class="pt-2 flex justify-end gap-2">
-        <button onclick="closeModal('modal-new-subject')" class="px-4 py-2 rounded-xl bg-[#EAE2D5] text-[#34312D] text-xs font-semibold">Abbrechen</button>
-        <button onclick="submitNewSubject()" class="px-4 py-2 rounded-xl bg-[#C8B69B] text-white text-xs font-bold">Erstellen</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: KLAUSUR / NOTE -->
-  <div id="modal-new-exam" class="fixed inset-0 bg-black/30 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#FFFDF8] border border-[#DED5C8] rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl">
-      <div class="flex items-center justify-between border-b border-[#DED5C8] pb-3">
-        <h3 class="text-base font-bold text-[#34312D]">Klassenarbeit / Note eintragen</h3>
-        <button onclick="closeModal('modal-new-exam')" class="text-[#81796F] hover:text-[#34312D]"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <div class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-[#81796F] mb-1">Schulfach</label>
-          <select id="input-exam-subject" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3 py-2 text-xs text-[#34312D] focus:outline-none"></select>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-[#81796F] mb-1">Thema / Klausurname</label>
-          <input type="text" id="input-exam-title" placeholder="z. B. 1. Schularbeit Kostenrechnung" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-[#81796F] mb-1">Note (1-6)</label>
-            <input type="number" step="0.1" min="1" max="6" id="input-exam-grade" placeholder="1.5" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-[#81796F] mb-1">Gewichtung (%)</label>
-            <input type="number" id="input-exam-weight" value="100" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-[#81796F] mb-1">Datum</label>
-          <input type="date" id="input-exam-date" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3 py-2 text-xs text-[#34312D] focus:outline-none">
-        </div>
-      </div>
-      <div class="pt-2 flex justify-end gap-2">
-        <button onclick="closeModal('modal-new-exam')" class="px-4 py-2 rounded-xl bg-[#EAE2D5] text-[#34312D] text-xs font-semibold">Abbrechen</button>
-        <button onclick="submitNewExam()" class="px-4 py-2 rounded-xl bg-[#C8B69B] text-white text-xs font-bold">Speichern</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: UNTERNEHMEN -->
-  <div id="modal-new-company" class="fixed inset-0 bg-black/30 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#FFFDF8] border border-[#DED5C8] rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl">
-      <div class="flex items-center justify-between border-b border-[#DED5C8] pb-3">
-        <h3 class="text-base font-bold text-[#34312D]">Neues Unternehmen anlegen</h3>
-        <button onclick="closeModal('modal-new-company')" class="text-[#81796F] hover:text-[#34312D]"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <div class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-[#81796F] mb-1">Firmenname</label>
-          <input type="text" id="input-company-name" placeholder="z. B. Automotive Tech Solutions" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-[#81796F] mb-1">Geschäftsidee / Beschreibung</label>
-          <input type="text" id="input-company-desc" placeholder="z. B. Entwicklung von EV-Ladetechnik" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-        </div>
-      </div>
-      <div class="pt-2 flex justify-end gap-2">
-        <button onclick="closeModal('modal-new-company')" class="px-4 py-2 rounded-xl bg-[#EAE2D5] text-[#34312D] text-xs font-semibold">Abbrechen</button>
-        <button onclick="submitNewCompany()" class="px-4 py-2 rounded-xl bg-[#C8B69B] text-white text-xs font-bold">Anlegen</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: TRANSACTION -->
-  <div id="modal-new-transaction" class="fixed inset-0 bg-black/30 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#FFFDF8] border border-[#DED5C8] rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl">
-      <div class="flex items-center justify-between border-b border-[#DED5C8] pb-3">
-        <h3 class="text-base font-bold text-[#34312D]">Einnahme / Ausgabe eintragen</h3>
-        <button onclick="closeModal('modal-new-transaction')" class="text-[#81796F] hover:text-[#34312D]"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <div class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-[#81796F] mb-1">Typ</label>
-          <select id="input-tx-type" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3 py-2 text-xs text-[#34312D] focus:outline-none">
-            <option value="Einnahme">Einnahme (+)</option>
-            <option value="Ausgabe">Ausgabe (-)</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-[#81796F] mb-1">Beschreibung</label>
-          <input type="text" id="input-tx-desc" placeholder="z. B. Kundenauftrag Elektroplanung" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-[#81796F] mb-1">Betrag (€)</label>
-            <input type="number" step="0.01" id="input-tx-amount" placeholder="1500.00" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-[#81796F] mb-1">Kategorie</label>
-            <input type="text" id="input-tx-cat" placeholder="Verkauf / Büro" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3.5 py-2 text-xs text-[#34312D] focus:outline-none">
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-[#81796F] mb-1">Datum</label>
-          <input type="date" id="input-tx-date" class="w-full bg-[#F5F1E8] border border-[#DED5C8] rounded-xl px-3 py-2 text-xs text-[#34312D] focus:outline-none">
-        </div>
-      </div>
-      <div class="pt-2 flex justify-end gap-2">
-        <button onclick="closeModal('modal-new-transaction')" class="px-4 py-2 rounded-xl bg-[#EAE2D5] text-[#34312D] text-xs font-semibold">Abbrechen</button>
-        <button onclick="submitNewTransaction()" class="px-4 py-2 rounded-xl bg-[#C8B69B] text-white text-xs font-bold">Buchen</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- APPLICATION JAVASCRIPT LOGIC -->
-  <script>
-    // FULL COMPREHENSIVE DATA STRUCTURE
-    const defaultState = {
-      activeCompanyId: 1,
-      subjects: [
-        {
-          id: 1,
-          name: "IT-Systeme",
-          topics: [
-            {
-              id: 101,
-              title: "Wasserfallmodell",
-              notes: "Das Wasserfallmodell ist ein lineares, sequenzielles Vorgehensmodell.",
-              subtopics: [
-                { id: 1001, title: "Analyse (Anforderungen erfassen)", status: "Verstanden" },
-                { id: 1002, title: "Entwurf (Systemarchitektur)", status: "Gerade am Lernen" },
-                { id: 1003, title: "Implementierung (Programmierung)", status: "Verstanden" },
-                { id: 1004, title: "Integration & Systemtest", status: "Noch nicht gelernt" },
-                { id: 1005, title: "Test (Abnahme)", status: "Selbstständig anwendbar" }
-              ]
-            }
-          ]
-        },
-        { id: 2, name: "BWL", topics: [] },
-        { id: 3, name: "Mathematik", topics: [] }
-      ],
-      exams: [
-        { id: 1, subjectId: 1, title: "Klausur Software-Modelle", grade: 1.7, weight: 100, date: "2026-11-10" }
-      ],
-      companies: [
-        {
-          id: 1,
-          name: "Northstar Automotive Tech",
-          description: "Entwicklung & Beratung für Elektromobilität",
-          products: [
-            { id: 1, name: "Consulting-Stunde E-Mobilität", price: 120 },
-            { id: 2, name: "Schulung: Batterietechnologie", price: 850 }
-          ],
-          customers: [
-            { id: 1, name: "Autohaus Müller GmbH", contact: "info@mueller.de" }
-          ],
-          ledger: [
-            { id: 1, type: "Einnahme", desc: "Consulting Projekt 1", category: "Verkauf", amount: 2400.00, date: "2026-11-01" },
-            { id: 2, type: "Ausgabe", desc: "Software Lizenzen", category: "IT", amount: 350.00, date: "2026-11-02" }
-          ]
-        }
-      ],
-      tasks: [
-        { id: 1, title: "Wasserfallmodell Zusammenfassung lernen", category: "Schule", date: "2026-11-03", completed: false },
-        { id: 2, title: "Monatsabrechnung Business machen", category: "Business", date: "2026-11-05", completed: false }
-      ],
-      habits: [
-        { id: 1, title: "25 Min Active Recall Lernen", done: true },
-        { id: 2, title: "Branchen-News lesen", done: false }
-      ],
-      goals: [
-        { id: 1, text: "Fachabi Notenschnitt unter 2,0 erreichen", completed: false },
-        { id: 2, text: "Ersten Großkunden im Business abschließen", completed: true }
-      ]
-    };
-
-    let appState = JSON.parse(JSON.stringify(defaultState));
-    let activeTopicContext = { subjectId: null, topicId: null };
-
-    document.addEventListener("DOMContentLoaded", function() {
-      loadLocalStorage();
-      renderAll();
-      lucide.createIcons();
-    });
-
-    function loadLocalStorage() {
-      const saved = localStorage.getItem("northstar_office_v3_data");
-      if (saved) {
-        try {
-          appState = JSON.parse(saved);
-        } catch(e) {
-          console.error("Localstorage load error", e);
-        }
-      }
-    }
-
-    function saveLocalStorage() {
-      localStorage.setItem("northstar_office_v3_data", JSON.stringify(appState));
-    }
-
-    function renderAll() {
-      document.getElementById("dash-date-str").innerText = getFormattedGermanDate();
-      renderDashboard();
-      renderSchool();
-      renderBusiness();
-      renderManagement();
-      lucide.createIcons();
-    }
-
-    function switchTab(tabId) {
-      document.querySelectorAll(".content-section").forEach(sec => sec.classList.add("hidden"));
-      const targetSec = document.getElementById(`section-${tabId}`);
-      if (targetSec) targetSec.classList.remove("hidden");
-
-      document.querySelectorAll(".nav-btn").forEach(btn => {
-        btn.classList.remove("bg-[#C8B69B]", "text-white", "shadow-sm");
-        btn.classList.add("text-[#34312D]");
-      });
-
-      const activeNav = document.getElementById(`nav-${tabId}`);
-      if (activeNav) {
-        activeNav.classList.add("bg-[#C8B69B]", "text-white", "shadow-sm");
-        activeNav.classList.remove("text-[#34312D]");
-      }
-
-      const sidebar = document.getElementById("sidebar");
-      const backdrop = document.getElementById("sidebar-backdrop");
-      if (!sidebar.classList.contains("-translate-x-full")) {
-        sidebar.classList.add("-translate-x-full");
-        backdrop.classList.add("hidden");
-      }
-    }
-
-    function toggleMobileMenu() {
-      document.getElementById("sidebar").classList.toggle("-translate-x-full");
-      document.getElementById("sidebar-backdrop").classList.toggle("hidden");
-    }
-
-    // ================= DASHBOARD RENDER =================
-    function renderDashboard() {
-      const openTasks = appState.tasks.filter(t => !t.completed);
-      document.getElementById("dash-open-tasks").innerText = openTasks.length;
-
-      // School overall progress
-      let totalSubs = 0, learnedSubs = 0;
-      appState.subjects.forEach(s => {
-        s.topics.forEach(t => {
-          t.subtopics.forEach(sub => {
-            totalSubs++;
-            if (sub.status === "Verstanden" || sub.status === "Selbstständig anwendbar") learnedSubs++;
-          });
-        });
-      });
-      const schoolPct = totalSubs > 0 ? Math.round((learnedSubs / totalSubs) * 100) : 0;
-      document.getElementById("dash-school-progress").innerText = `${schoolPct}%`;
-
-      // Business profit
-      const currentCompany = appState.companies.find(c => c.id === appState.activeCompanyId) || appState.companies[0];
-      let revenue = 0, expenses = 0;
-      if (currentCompany) {
-        currentCompany.ledger.forEach(l => {
-          if (l.type === "Einnahme") revenue += l.amount;
-          else expenses += l.amount;
-        });
-      }
-      const profit = revenue - expenses;
-      document.getElementById("dash-business-profit").innerText = `${profit.toLocaleString('de-DE')} €`;
-
-      // Grade Avg
-      let gradeSum = 0, weightSum = 0;
-      appState.exams.forEach(e => {
-        gradeSum += e.grade * (e.weight / 100);
-        weightSum += (e.weight / 100);
-      });
-      const gradeAvg = weightSum > 0 ? (gradeSum / weightSum).toFixed(2) : "0.0";
-      document.getElementById("dash-grade-avg").innerText = gradeAvg;
-
-      // Today list
-      const todayCont = document.getElementById("dash-today-list");
-      todayCont.innerHTML = "";
-      if (openTasks.length === 0) {
-        todayCont.innerHTML = `<p class="text-xs text-[#81796F] italic">Keine anstehenden Aufgaben. Hervorragend!</p>`;
-      } else {
-        openTasks.slice(0, 4).forEach(t => {
-          const div = document.createElement("div");
-          div.className = "p-3 rounded-xl bg-[#F5F1E8] border border-[#DED5C8] flex items-center justify-between text-xs";
-          div.innerHTML = `
-            <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded bg-[#EAE2D5] font-bold text-[10px]">${t.category}</span>
-              <span class="font-semibold text-[#34312D]">${t.title}</span>
-            </div>
-            <span class="text-[#81796F] text-[10px]">${t.date || 'Heute'}</span>
-          `;
-          todayCont.appendChild(div);
-        });
-      }
-
-      // Next step
-      const nextStepCont = document.getElementById("dash-next-step");
-      if (openTasks.length > 0) {
-        nextStepCont.innerHTML = `<p class="text-xs text-[#34312D] font-bold">Erledige: ${openTasks[0].title}</p>`;
-      } else {
-        nextStepCont.innerHTML = `<p class="text-xs text-[#81796F]">Lerne heute ein Fachabi-Unterthema im School Office.</p>`;
-      }
-
-      // Goals summary
-      const goalsCont = document.getElementById("dash-goals-summary");
-      goalsCont.innerHTML = "";
-      appState.goals.forEach(g => {
-        const div = document.createElement("div");
-        div.className = "text-xs flex items-center gap-2 text-[#34312D]";
-        div.innerHTML = `<span class="w-2 h-2 rounded-full ${g.completed ? 'bg-[#C8B69B]' : 'bg-[#DED5C8]'}"></span> <span class="${g.completed ? 'line-through text-[#81796F]' : ''}">${g.text}</span>`;
-        goalsCont.appendChild(div);
-      });
-    }
-
-    // ================= SCHOOL OFFICE RENDER =================
-    function renderSchool() {
-      const grid = document.getElementById("school-subjects-grid");
-      grid.innerHTML = "";
-
-      appState.subjects.forEach(subj => {
-        let total = 0, learned = 0;
-        subj.topics.forEach(t => {
-          t.subtopics.forEach(sub => {
-            total++;
-            if (sub.status === "Verstanden" || sub.status === "Selbstständig anwendbar") learned++;
-          });
-        });
-        const pct = total > 0 ? Math.round((learned / total) * 100) : 0;
-
-        const card = document.createElement("div");
-        card.className = "p-5 rounded-2xl bg-[#FFFDF8] border border-[#DED5C8] space-y-3 shadow-xs flex flex-col justify-between";
-        
-        let topicsHtml = "";
-        subj.topics.forEach(top => {
-          topicsHtml += `
-            <div onclick="openTopicDetail(${subj.id}, ${top.id})" class="p-2.5 rounded-xl bg-[#F5F1E8] border border-[#DED5C8] cursor-pointer hover:border-[#C8B69B] flex items-center justify-between text-xs">
-              <span class="font-bold text-[#34312D]">${top.title}</span>
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#81796F]"></i>
-            </div>
-          `;
-        });
-
-        card.innerHTML = `
-          <div class="space-y-3">
-            <div class="flex items-center justify-between border-b border-[#DED5C8] pb-2">
-              <h3 class="font-bold text-base text-[#34312D]">${subj.name}</h3>
-              <button onclick="deleteSubject(${subj.id})" class="text-[#81796F] hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-            </div>
-            <div class="space-y-1">
-              <div class="flex justify-between text-[11px] text-[#81796F]">
-                <span>Fortschritt</span>
-                <span class="font-bold text-[#34312D]">${pct}%</span>
-              </div>
-              <div class="w-full bg-[#EAE2D5] h-1.5 rounded-full overflow-hidden">
-                <div class="bg-[#C8B69B] h-full rounded-full" style="width: ${pct}%"></div>
-              </div>
-            </div>
-            <div class="space-y-1.5 pt-1">${topicsHtml}</div>
-          </div>
-          <button onclick="promptAddTopic(${subj.id})" class="w-full py-2 rounded-xl bg-[#EAE2D5] hover:bg-[#DED5C8] text-[#34312D] text-xs font-semibold border border-[#DED5C8]">+ Thema</button>
-        `;
-        grid.appendChild(card);
-      });
-
-      // Render Exams Table
-      const tableBody = document.getElementById("school-exams-table-body");
-      tableBody.innerHTML = "";
-      
-      let gradeSum = 0, weightSum = 0;
-      appState.exams.forEach(ex => {
-        const subj = appState.subjects.find(s => s.id === ex.subjectId);
-        gradeSum += ex.grade * (ex.weight / 100);
-        weightSum += (ex.weight / 100);
-
-        const tr = document.createElement("tr");
-        tr.className = "hover:bg-[#F5F1E8]";
-        tr.innerHTML = `
-          <td class="p-3 font-bold">${subj ? subj.name : 'Unbekannt'}</td>
-          <td class="p-3">${ex.title}</td>
-          <td class="p-3 text-[#81796F]">${ex.date}</td>
-          <td class="p-3">${ex.weight}%</td>
-          <td class="p-3 font-extrabold text-[#34312D]">${ex.grade.toFixed(1)}</td>
-          <td class="p-3 text-right">
-            <button onclick="deleteExam(${ex.id})" class="text-[#81796F] hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-          </td>
-        `;
-        tableBody.appendChild(tr);
-      });
-
-      const avg = weightSum > 0 ? (gradeSum / weightSum).toFixed(2) : "0.0";
-      document.getElementById("school-avg-badge").innerText = `Gesamtschnitt: ${avg}`;
-    }
-
-    function openTopicDetail(subjectId, topicId) {
-      activeTopicContext = { subjectId, topicId };
-      const subject = appState.subjects.find(s => s.id === subjectId);
-      const topic = subject.topics.find(t => t.id === topicId);
-
-      document.getElementById("school-detail-subject-tag").innerText = subject.name;
-      document.getElementById("school-detail-topic-title").innerText = topic.title;
-      document.getElementById("school-topic-notes").value = topic.notes || "";
-
-      renderSubtopicsList(topic);
-      document.getElementById("school-topic-detail").classList.remove("hidden");
-    }
-
-    function closeTopicDetail() {
-      document.getElementById("school-topic-detail").classList.add("hidden");
-      activeTopicContext = { subjectId: null, topicId: null };
-    }
-
-    function renderSubtopicsList(topic) {
-      const container = document.getElementById("school-subtopics-list");
-      container.innerHTML = "";
-      const statuses = ["Noch nicht gelernt", "Gerade am Lernen", "Verstanden", "Selbstständig anwendbar"];
-
-      topic.subtopics.forEach(sub => {
-        const div = document.createElement("div");
-        div.className = "p-3 rounded-xl bg-[#F5F1E8] border border-[#DED5C8] space-y-2";
-        let statusBtns = `<div class="flex items-center gap-1 flex-wrap">`;
-        statuses.forEach(st => {
-          const isActive = sub.status === st;
-          statusBtns += `
-            <button onclick="setSubtopicStatus(${sub.id}, '${st}')" class="px-2 py-0.5 rounded text-[10px] font-bold ${isActive ? 'bg-[#C8B69B] text-white' : 'bg-[#EAE2D5] text-[#81796F]'}">
-              ${st}
-            </button>
-          `;
-        });
-        statusBtns += `</div>`;
-
-        div.innerHTML = `
-          <div class="flex items-center justify-between text-xs font-bold text-[#34312D]">
-            <span>${sub.title}</span>
-            <button onclick="deleteSubtopic(${sub.id})" class="text-[#81796F] hover:text-red-700"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
-          </div>
-          ${statusBtns}
-        `;
-        container.appendChild(div);
-      });
-      lucide.createIcons();
-    }
-
-    function setSubtopicStatus(subId, newStatus) {
-      const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
-      const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
-      const sub = topic.subtopics.find(s => s.id === subId);
-      if (sub) {
-        sub.status = newStatus;
-        saveLocalStorage();
-        renderSubtopicsList(topic);
-        renderSchool();
-        renderDashboard();
-      }
-    }
-
-    function saveTopicNotes() {
-      if (!activeTopicContext.topicId) return;
-      const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
-      const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
-      topic.notes = document.getElementById("school-topic-notes").value;
-      saveLocalStorage();
-    }
-
-    function promptAddTopic(subjectId) {
-      const title = prompt("Name des neuen Themas:");
-      if (title && title.trim()) {
-        const subject = appState.subjects.find(s => s.id === subjectId);
-        subject.topics.push({ id: Date.now(), title: title.trim(), notes: "", subtopics: [] });
-        saveLocalStorage();
-        renderSchool();
-      }
-    }
-
-    function promptAddSubtopic() {
-      const title = prompt("Name des Unterthemas:");
-      if (title && title.trim() && activeTopicContext.topicId) {
-        const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
-        const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
-        topic.subtopics.push({ id: Date.now(), title: title.trim(), status: "Noch nicht gelernt" });
-        saveLocalStorage();
-        renderSubtopicsList(topic);
-        renderSchool();
-      }
-    }
-
-    function deleteSubtopic(subId) {
-      const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
-      const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
-      topic.subtopics = topic.subtopics.filter(s => s.id !== subId);
-      saveLocalStorage();
-      renderSubtopicsList(topic);
-      renderSchool();
-    }
-
-    function deleteCurrentTopic() {
-      if (confirm("Thema wirklich löschen?")) {
-        const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
-        subject.topics = subject.topics.filter(t => t.id !== activeTopicContext.topicId);
-        saveLocalStorage();
-        closeTopicDetail();
-        renderSchool();
-      }
-    }
-
-    function deleteSubject(subjectId) {
-      if (confirm("Schulfach samt aller Themen löschen?")) {
-        appState.subjects = appState.subjects.filter(s => s.id !== subjectId);
-        saveLocalStorage();
-        renderSchool();
-        renderDashboard();
-      }
-    }
-
-    // ================= BUSINESS OFFICE RENDER =================
-    function renderBusiness() {
-      const compSelect = document.getElementById("biz-company-select");
-      compSelect.innerHTML = "";
-      appState.companies.forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c.id;
-        opt.innerText = c.name;
-        if (c.id === appState.activeCompanyId) opt.selected = true;
-        compSelect.appendChild(opt);
-      });
-
-      const currentCompany = appState.companies.find(c => c.id === appState.activeCompanyId) || appState.companies[0];
-      if (!currentCompany) return;
-
-      document.getElementById("biz-company-name").innerText = currentCompany.name;
-      document.getElementById("biz-company-desc").innerText = currentCompany.description;
-
-      // KPIs
-      let revenue = 0, expenses = 0;
-      currentCompany.ledger.forEach(l => {
-        if (l.type === "Einnahme") revenue += l.amount;
-        else expenses += l.amount;
-      });
-      const profit = revenue - expenses;
-      const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : 0;
-
-      document.getElementById("biz-kpi-revenue").innerText = `${revenue.toLocaleString('de-DE')} €`;
-      document.getElementById("biz-kpi-expenses").innerText = `${expenses.toLocaleString('de-DE')} €`;
-      document.getElementById("biz-kpi-profit").innerText = `${profit.toLocaleString('de-DE')} €`;
-      document.getElementById("biz-kpi-margin").innerText = `${margin}%`;
-
-      // Products
-      const prodList = document.getElementById("biz-products-list");
-      prodList.innerHTML = "";
-      currentCompany.products.forEach(p => {
-        const div = document.createElement("div");
-        div.className = "p-3 rounded-xl bg-[#F5F1E8] border border-[#DED5C8] flex justify-between items-center text-xs";
-        div.innerHTML = `<span class="font-bold text-[#34312D]">${p.name}</span><span class="font-extrabold text-[#34312D]">${p.price} €</span>`;
-        prodList.appendChild(div);
-      });
-
-      // Customers
-      const custList = document.getElementById("biz-customers-list");
-      custList.innerHTML = "";
-      currentCompany.customers.forEach(c => {
-        const div = document.createElement("div");
-        div.className = "p-3 rounded-xl bg-[#F5F1E8] border border-[#DED5C8] flex justify-between items-center text-xs";
-        div.innerHTML = `<span class="font-bold text-[#34312D]">${c.name}</span><span class="text-[#81796F]">${c.contact}</span>`;
-        custList.appendChild(div);
-      });
-
-      // Ledger Table
-      const ledgerBody = document.getElementById("biz-ledger-body");
-      ledgerBody.innerHTML = "";
-      currentCompany.ledger.forEach(l => {
-        const tr = document.createElement("tr");
-        tr.className = "hover:bg-[#F5F1E8]";
-        tr.innerHTML = `
-          <td class="p-3 text-[#81796F]">${l.date}</td>
-          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${l.type === 'Einnahme' ? 'bg-[#EAE2D5] text-[#34312D]' : 'bg-red-100 text-red-700'}">${l.type}</span></td>
-          <td class="p-3 font-semibold">${l.desc}</td>
-          <td class="p-3 text-[#81796F]">${l.category}</td>
-          <td class="p-3 font-extrabold ${l.type === 'Einnahme' ? 'text-[#34312D]' : 'text-red-700'}">${l.type === 'Einnahme' ? '+' : '-'}${l.amount.toFixed(2)} €</td>
-          <td class="p-3 text-right"><button onclick="deleteTransaction(${l.id})" class="text-[#81796F] hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>
-        `;
-        ledgerBody.appendChild(tr);
-      });
-    }
-
-    function switchCompany(id) {
-      appState.activeCompanyId = parseInt(id);
-      saveLocalStorage();
-      renderBusiness();
-      renderDashboard();
-    }
-
-    function promptAddProduct() {
-      const name = prompt("Produkt- / Dienstleistungsname:");
-      const price = prompt("Preis (€):");
-      if (name && price) {
-        const comp = appState.companies.find(c => c.id === appState.activeCompanyId);
-        comp.products.push({ id: Date.now(), name, price: parseFloat(price) });
-        saveLocalStorage();
-        renderBusiness();
-      }
-    }
-
-    function promptAddCustomer() {
-      const name = prompt("Kundenname:");
-      const contact = prompt("Kontakt E-Mail / Telefon:");
-      if (name) {
-        const comp = appState.companies.find(c => c.id === appState.activeCompanyId);
-        comp.customers.push({ id: Date.now(), name, contact: contact || "-" });
-        saveLocalStorage();
-        renderBusiness();
-      }
-    }
-
-    function deleteTransaction(id) {
-      const comp = appState.companies.find(c => c.id === appState.activeCompanyId);
-      comp.ledger = comp.ledger.filter(l => l.id !== id);
-      saveLocalStorage();
-      renderBusiness();
-      renderDashboard();
-    }
-
-    // ================= MANAGEMENT OFFICE RENDER =================
-    function renderManagement() {
-      const tasksCont = document.getElementById("mgmt-tasks-container");
-      tasksCont.innerHTML = "";
-      const openTasks = appState.tasks.filter(t => !t.completed);
-      document.getElementById("mgmt-task-count").innerText = `${openTasks.length} offen`;
-
-      appState.tasks.forEach(t => {
-        const div = document.createElement("div");
-        div.className = "p-3 rounded-xl bg-[#F5F1E8] border border-[#DED5C8] flex items-center justify-between text-xs";
-        div.innerHTML = `
-          <div class="flex items-center gap-3">
-            <button onclick="toggleMgmtTask(${t.id})" class="w-4 h-4 rounded border border-[#DED5C8] ${t.completed ? 'bg-[#C8B69B]' : 'bg-[#FFFDF8]'} flex items-center justify-center"></button>
-            <span class="${t.completed ? 'line-through text-[#81796F]' : 'font-semibold text-[#34312D]'}">${t.title}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded bg-[#EAE2D5] text-[10px] font-bold text-[#81796F]">${t.category}</span>
-            <button onclick="deleteMgmtTask(${t.id})" class="text-[#81796F] hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-          </div>
-        `;
-        tasksCont.appendChild(div);
-      });
-
-      // Habits
-      const habitsCont = document.getElementById("mgmt-habits-container");
-      habitsCont.innerHTML = "";
-      appState.habits.forEach(h => {
-        const div = document.createElement("div");
-        div.className = "p-2.5 rounded-xl bg-[#F5F1E8] border border-[#DED5C8] flex items-center justify-between text-xs";
-        div.innerHTML = `
-          <span class="${h.done ? 'line-through text-[#81796F]' : 'font-bold text-[#34312D]'}">${h.title}</span>
-          <button onclick="toggleHabit(${h.id})" class="px-2 py-1 rounded text-[10px] font-bold ${h.done ? 'bg-[#C8B69B] text-white' : 'bg-[#EAE2D5] text-[#81796F]'}">${h.done ? 'Erledigt' : 'Abhaken'}</button>
-        `;
-        habitsCont.appendChild(div);
-      });
-
-      // Goals
-      const goalsCont = document.getElementById("mgmt-goals-container");
-      goalsCont.innerHTML = "";
-      appState.goals.forEach(g => {
-        const div = document.createElement("div");
-        div.className = "p-2.5 rounded-xl bg-[#F5F1E8] border border-[#DED5C8] flex items-center justify-between text-xs";
-        div.innerHTML = `
-          <span class="${g.completed ? 'line-through text-[#81796F]' : 'font-bold text-[#34312D]'}">${g.text}</span>
-          <button onclick="toggleGoal(${g.id})" class="text-[#81796F] hover:text-[#34312D]"><i data-lucide="${g.completed ? 'check-square' : 'square'}" class="w-4 h-4"></i></button>
-        `;
-        goalsCont.appendChild(div);
-      });
-    }
-
-    function handleMgmtTaskSubmit(e) {
-      e.preventDefault();
-      const title = document.getElementById("mgmt-task-title").value.trim();
-      const category = document.getElementById("mgmt-task-cat").value;
-      const date = document.getElementById("mgmt-task-date").value || getTodayISO();
-
-      if (title) {
-        appState.tasks.push({ id: Date.now(), title, category, date, completed: false });
-        saveLocalStorage();
-        renderManagement();
-        renderDashboard();
-        document.getElementById("mgmt-task-title").value = "";
-      }
-    }
-
-    function toggleMgmtTask(id) {
-      const task = appState.tasks.find(t => t.id === id);
-      if (task) {
-        task.completed = !task.completed;
-        saveLocalStorage();
-        renderManagement();
-        renderDashboard();
-      }
-    }
-
-    function deleteMgmtTask(id) {
-      appState.tasks = appState.tasks.filter(t => t.id !== id);
-      saveLocalStorage();
-      renderManagement();
-      renderDashboard();
-    }
-
-    function toggleHabit(id) {
-      const habit = appState.habits.find(h => h.id === id);
-      if (habit) {
-        habit.done = !habit.done;
-        saveLocalStorage();
-        renderManagement();
-      }
-    }
-
-    function toggleGoal(id) {
-      const goal = appState.goals.find(g => g.id === id);
-      if (goal) {
-        goal.completed = !goal.completed;
-        saveLocalStorage();
-        renderManagement();
-        renderDashboard();
-      }
-    }
-
-    function promptAddHabit() {
-      const title = prompt("Tägliche Gewohnheit:");
-      if (title) {
-        appState.habits.push({ id: Date.now(), title, done: false });
-        saveLocalStorage();
-        renderManagement();
-      }
-    }
-
-    function promptAddGoal() {
-      const text = prompt("Neues Ziel:");
-      if (text) {
-        appState.goals.push({ id: Date.now(), text, completed: false });
-        saveLocalStorage();
-        renderManagement();
-        renderDashboard();
-      }
-    }
-
-    // ================= MODAL SUBMITS =================
-    function openNewSubjectModal() { document.getElementById("modal-new-subject").classList.remove("hidden"); }
-    function openNewExamModal() {
-      const select = document.getElementById("input-exam-subject");
-      select.innerHTML = "";
-      appState.subjects.forEach(s => {
-        const opt = document.createElement("option");
-        opt.value = s.id;
-        opt.innerText = s.name;
-        select.appendChild(opt);
-      });
-      document.getElementById("modal-new-exam").classList.remove("hidden");
-    }
-    function openNewCompanyModal() { document.getElementById("modal-new-company").classList.remove("hidden"); }
-    function openNewTransactionModal() { document.getElementById("modal-new-transaction").classList.remove("hidden"); }
-
-    function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
-
-    function submitNewSubject() {
-      const name = document.getElementById("input-subject-name").value.trim();
-      if (name) {
-        appState.subjects.push({ id: Date.now(), name, topics: [] });
-        saveLocalStorage();
-        renderSchool();
-        closeModal("modal-new-subject");
-        document.getElementById("input-subject-name").value = "";
-      }
-    }
-
-    function submitNewExam() {
-      const subjectId = parseInt(document.getElementById("input-exam-subject").value);
-      const title = document.getElementById("input-exam-title").value.trim();
-      const grade = parseFloat(document.getElementById("input-exam-grade").value);
-      const weight = parseFloat(document.getElementById("input-exam-weight").value);
-      const date = document.getElementById("input-exam-date").value || getTodayISO();
-
-      if (subjectId && title && !isNaN(grade)) {
-        appState.exams.push({ id: Date.now(), subjectId, title, grade, weight, date });
-        saveLocalStorage();
-        renderSchool();
-        renderDashboard();
-        closeModal("modal-new-exam");
-      }
-    }
-
-    function deleteExam(id) {
-      appState.exams = appState.exams.filter(e => e.id !== id);
-      saveLocalStorage();
-      renderSchool();
-      renderDashboard();
-    }
-
-    function submitNewCompany() {
-      const name = document.getElementById("input-company-name").value.trim();
-      const desc = document.getElementById("input-company-desc").value.trim();
-
-      if (name) {
-        const newComp = { id: Date.now(), name, description: desc, products: [], customers: [], ledger: [] };
-        appState.companies.push(newComp);
-        appState.activeCompanyId = newComp.id;
-        saveLocalStorage();
-        renderBusiness();
-        closeModal("modal-new-company");
-      }
-    }
-
-    function submitNewTransaction() {
-      const type = document.getElementById("input-tx-type").value;
-      const desc = document.getElementById("input-tx-desc").value.trim();
-      const amount = parseFloat(document.getElementById("input-tx-amount").value);
-      const category = document.getElementById("input-tx-cat").value.trim();
-      const date = document.getElementById("input-tx-date").value || getTodayISO();
-
-      if (desc && !isNaN(amount)) {
-        const comp = appState.companies.find(c => c.id === appState.activeCompanyId);
-        comp.ledger.unshift({ id: Date.now(), type, desc, category: category || "General", amount, date });
-        saveLocalStorage();
-        renderBusiness();
-        renderDashboard();
-        closeModal("modal-new-transaction");
-      }
-    }
-
-    // ================= UTILS & SEARCH & BACKUP =================
-    function handleGoogleSearchSubmit(e) {
-      e.preventDefault();
-      const q = document.getElementById("google-search-bar").value.trim();
-      if (q) window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-    }
-
-    function exportDataJSON() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
-      const a = document.createElement('a');
-      a.setAttribute("href", dataStr);
-      a.setAttribute("download", `northstar_3.0_backup_${getTodayISO()}.json`);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-
-    function importDataJSON(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        try {
-          const imported = JSON.parse(evt.target.result);
-          if (imported.subjects && imported.companies) {
-            appState = imported;
-            saveLocalStorage();
-            renderAll();
-            alert("Northstar 3.0 Daten erfolgreich wiederhergestellt!");
-          }
-        } catch(err) {
-          alert("Fehler beim Importieren der Datei.");
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function confirmResetAllData() {
-      if (confirm("Möchtest du wirklich alle Daten zurücksetzen?")) {
-        localStorage.removeItem("northstar_office_v3_data");
-        appState = JSON.parse(JSON.stringify(defaultState));
-        saveLocalStorage();
-        renderAll();
-        alert("System zurückgesetzt.");
-      }
-    }
-
-    function getTodayISO() {
-      return new Date().toISOString().split('T')[0];
-    }
-
-    function getFormattedGermanDate() {
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date().toLocaleDateString('de-DE', options);
-    }
-
-    // FOCUS TIMER LOGIC
-    let timerMins = 25, timerSecs = 0, timerInterval = null, timerRunning = false;
-    function toggleTimer() {
-      const icon = document.getElementById("timer-icon");
-      if (timerRunning) {
-        clearInterval(timerInterval);
-        timerRunning = false;
-        icon.setAttribute("data-lucide", "play");
-      } else {
-        timerRunning = true;
-        icon.setAttribute("data-lucide", "pause");
-        timerInterval = setInterval(() => {
-          if (timerSecs === 0) {
-            if (timerMins === 0) {
-              clearInterval(timerInterval);
-              timerRunning = false;
-              alert("Fokus-Zeit beendet!");
-              resetTimer();
-              return;
-            }
-            timerMins--;
-            timerSecs = 59;
-          } else {
-            timerSecs--;
-          }
-          document.getElementById("timer-display").innerText = `${String(timerMins).padStart(2,'0')}:${String(timerSecs).padStart(2,'0')}`;
-        }, 1000);
-      }
-      lucide.createIcons();
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      timerRunning = false;
-      timerMins = 25; timerSecs = 0;
-      document.getElementById("timer-display").innerText = "25:00";
-      document.getElementById("timer-icon").setAttribute("data-lucide", "play");
-      lucide.createIcons();
-    }
-
-    function promptTimerMinutes() {
-      const mins = prompt("Timer Minuten:", timerMins);
-      if (mins && !isNaN(mins) && mins > 0) {
-        timerMins = parseInt(mins);
-        timerSecs = 0;
-        document.getElementById("timer-display").innerText = `${String(timerMins).padStart(2,'0')}:00`;
-      }
-    }
-  </script>
-</body>
-</html>
+          <div class="p-4 rounded-xl bg-[var(--color-bg,#F5F1E8)] border border-[var(--color-border,#DED5C8)]">
+            <p class="text-
