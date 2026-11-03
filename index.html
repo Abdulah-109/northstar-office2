@@ -1,0 +1,1222 @@
+index.html.<!DOCTYPE html>
+<html lang="de" class="h-full bg-[#0B0F17] text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Northstar – Personal Office v2.0</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#0066ff',
+              600: '#0052cc',
+              700: '#003d99',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0B0F17; }
+    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 3px; }
+  </style>
+</head>
+<body class="h-full flex flex-col md:flex-row overflow-hidden bg-[#0B0F17] text-slate-100 antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- MOBILE HEADER (FOR IPHONE / IPAD PORTRAIT) -->
+  <div class="md:hidden flex items-center justify-between px-4 py-3.5 bg-[#131B2A] border-b border-slate-800 z-30 shrink-0">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-xl bg-brand-500 flex items-center justify-center font-black text-white shadow-lg shadow-brand-500/30">N</div>
+      <span class="font-bold text-lg tracking-wider text-white">NORTHSTAR</span>
+    </div>
+    <button onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-slate-800 text-slate-200 active:bg-slate-700">
+      <i data-lucide="menu" class="w-6 h-6"></i>
+    </button>
+  </div>
+
+  <!-- BACKDROP FOR MOBILE SIDEBAR -->
+  <div id="sidebar-backdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-[#131B2A] border-r border-slate-800/80 z-50 flex flex-col transform -translate-x-full md:translate-x-0 md:static transition-transform duration-200 shrink-0">
+    <!-- App Header Logo -->
+    <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-blue-400 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-brand-500/20">
+          N
+        </div>
+        <div>
+          <h1 class="font-extrabold text-base tracking-wider text-slate-100 leading-none">NORTHSTAR</h1>
+          <p class="text-[10px] text-brand-400 font-bold tracking-widest uppercase mt-1">Personal Office v2.0</p>
+        </div>
+      </div>
+      <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <nav class="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition bg-brand-600 text-white shadow-lg shadow-brand-600/25">
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <span>Dashboard</span>
+      </button>
+
+      <button onclick="switchTab('lernen')" id="nav-lernen" class="nav-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800/70 hover:text-white">
+        <i data-lucide="graduation-cap" class="w-5 h-5 text-indigo-400"></i>
+        <span>Lernen & Fächer</span>
+      </button>
+
+      <button onclick="switchTab('tasks')" id="nav-tasks" class="nav-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800/70 hover:text-white">
+        <i data-lucide="check-square" class="w-5 h-5 text-emerald-400"></i>
+        <span>Aufgaben & Planung</span>
+        <span id="sidebar-open-count" class="ml-auto px-2 py-0.5 text-xs font-bold rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30">0</span>
+      </button>
+
+      <button onclick="switchTab('center')" id="nav-center" class="nav-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800/70 hover:text-white">
+        <i data-lucide="search" class="w-5 h-5 text-cyan-400"></i>
+        <span>Center (Google)</span>
+      </button>
+
+      <button onclick="switchTab('einstellungen')" id="nav-einstellungen" class="nav-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition text-slate-300 hover:bg-slate-800/70 hover:text-white">
+        <i data-lucide="settings" class="w-5 h-5 text-amber-400"></i>
+        <span>Einstellungen</span>
+      </button>
+    </nav>
+
+    <!-- Pomodoro Focus Widget -->
+    <div class="p-3.5 mx-3 mb-4 rounded-2xl bg-slate-900/90 border border-slate-800">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-xs font-bold text-slate-400 flex items-center gap-1.5">
+          <i data-lucide="timer" class="w-4 h-4 text-brand-400"></i> Focus Timer
+        </span>
+        <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 border border-brand-500/30">Pomodoro</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <button onclick="promptTimerMinutes()" title="Klicken zum Ändern" class="text-2xl font-black font-mono text-slate-100 hover:text-brand-400 transition cursor-pointer" id="timer-display">25:00</button>
+        <div class="flex items-center gap-1.5">
+          <button onclick="toggleTimer()" id="timer-btn" class="p-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white shadow-md">
+            <i data-lucide="play" class="w-4 h-4" id="timer-icon"></i>
+          </button>
+          <button onclick="resetTimer()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WORKSPACE CONTENT -->
+  <main class="flex-1 overflow-y-auto bg-[#0B0F17] relative p-4 md:p-8">
+
+    <!-- 1. DASHBOARD SECTION -->
+    <section id="section-dashboard" class="content-section space-y-6">
+      <!-- Welcome Header -->
+      <div class="bg-gradient-to-r from-[#131B2A] via-slate-900 to-[#131B2A] p-6 rounded-2xl border border-slate-800/80 shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative overflow-hidden">
+        <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div>
+          <div class="flex items-center gap-2 text-brand-400 text-xs font-bold mb-1">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            <span id="dash-date-str">Dienstag, 3. November 2026</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white">Guten Tag, Boss.</h2>
+          <p class="text-xs md:text-sm text-slate-400 mt-1">Hier ist deine aktuelle Lageübersicht. Sämtliche Daten werden live berechnet.</p>
+        </div>
+        <button onclick="switchTab('tasks')" class="px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs transition flex items-center gap-2 shadow-lg shadow-brand-600/30 shrink-0 active:scale-95">
+          <i data-lucide="plus" class="w-4 h-4"></i> Neue Aufgabe
+        </button>
+      </div>
+
+      <!-- Live Calculated Metrics Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-2xl bg-[#131B2A] border border-slate-800/80 shadow-sm">
+          <p class="text-xs font-bold text-slate-400">Offene Aufgaben</p>
+          <div class="flex items-baseline justify-between mt-2">
+            <span class="text-2xl font-extrabold text-white" id="dash-open-tasks-count">0</span>
+            <span id="dash-overdue-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 hidden">Überfällig</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[#131B2A] border border-slate-800/80 shadow-sm">
+          <p class="text-xs font-bold text-slate-400">Aktive Fächer</p>
+          <div class="flex items-baseline justify-between mt-2">
+            <span class="text-2xl font-extrabold text-indigo-400" id="dash-subjects-count">0</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Fachabi</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[#131B2A] border border-slate-800/80 shadow-sm">
+          <p class="text-xs font-bold text-slate-400">Lernfortschritt</p>
+          <div class="flex items-baseline justify-between mt-2">
+            <span class="text-2xl font-extrabold text-emerald-400" id="dash-overall-progress-text">0%</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Gesamt</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[#131B2A] border border-slate-800/80 shadow-sm">
+          <p class="text-xs font-bold text-slate-400">Verstandene Themen</p>
+          <div class="flex items-baseline justify-between mt-2">
+            <span class="text-2xl font-extrabold text-brand-400" id="dash-learned-subtopics-ratio">0/0</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-500/20 text-brand-300">Absolviert</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Main Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Today & Pending Tasks -->
+        <div class="lg:col-span-2 p-5 rounded-2xl bg-[#131B2A] border border-slate-800/80 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i data-lucide="clock" class="w-4 h-4 text-brand-400"></i> Was steht heute & demnächst an?
+            </h3>
+            <button onclick="switchTab('tasks')" class="text-xs text-brand-400 hover:underline font-semibold">Alle Aufgaben &rarr;</button>
+          </div>
+          <div id="dash-today-tasks-container" class="space-y-2.5">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Smart Next Step & Offene Lernthemen -->
+        <div class="space-y-6">
+          <div class="p-5 rounded-2xl bg-gradient-to-b from-brand-950/40 to-[#131B2A] border border-brand-500/30 space-y-3">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-xs">
+              <i data-lucide="zap" class="w-4 h-4"></i> Empfohlener nächster Schritt
+            </div>
+            <div id="dash-smart-next-step">
+              <!-- Dynamisch erzeugt -->
+            </div>
+          </div>
+
+          <!-- Quick Learning Progress Card -->
+          <div class="p-5 rounded-2xl bg-[#131B2A] border border-slate-800/80 space-y-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="book-open" class="w-4 h-4 text-indigo-400"></i> Offene Lernbaustellen
+            </h3>
+            <div id="dash-open-learning-items" class="space-y-2">
+              <!-- Dynamisch erzeugt -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. LERNEN & FÄCHER SECTION -->
+    <section id="section-lernen" class="content-section space-y-6 hidden">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Lernbereich & Fächer</h2>
+          <p class="text-xs text-slate-400 mt-1">Strukturiere deine Schulfächer, Themen und Unterthemen mit Fortschrittskontrolle.</p>
+        </div>
+        <button onclick="openNewSubjectModal()" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs transition flex items-center gap-2 shadow-md">
+          <i data-lucide="plus" class="w-4 h-4"></i> Neues Fach anlegen
+        </button>
+      </div>
+
+      <!-- Fächer Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="subjects-grid">
+        <!-- JS populated subjects cards -->
+      </div>
+
+      <!-- Detailed Topic View (Drawer/Modal Card) -->
+      <div id="topic-detail-card" class="p-6 rounded-2xl bg-[#131B2A] border border-slate-800 space-y-6 hidden shadow-2xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-4 gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="detail-subject-tag" class="text-[10px] font-bold uppercase tracking-wider text-brand-400 bg-brand-500/10 px-2.5 py-0.5 rounded border border-brand-500/20">Fach</span>
+              <span id="detail-topic-progress-text" class="text-xs font-bold text-emerald-400">0% Verstanden</span>
+            </div>
+            <h3 id="detail-topic-title" class="text-xl font-extrabold text-white mt-1">Themenübersicht</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="editCurrentTopicTitle()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 flex items-center gap-1.5">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Thema umbenennen
+            </button>
+            <button onclick="deleteCurrentTopic()" class="px-3 py-1.5 bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 rounded-xl text-xs font-semibold border border-rose-500/30 flex items-center gap-1.5">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Thema löschen
+            </button>
+            <button onclick="closeTopicDetail()" class="p-2 text-slate-400 hover:text-white rounded-xl bg-slate-900 border border-slate-800">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Unterthemen Checklist -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <i data-lucide="list-checks" class="w-4 h-4 text-brand-400"></i> Unterthemen & Status
+              </h4>
+              <button onclick="promptAddSubtopic()" class="text-xs text-brand-400 hover:underline font-bold">+ Unterthema hinzufügen</button>
+            </div>
+            
+            <div id="subtopics-container" class="space-y-2.5">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- Notes & Summaries -->
+          <div class="space-y-4">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i> Eigene Notizen & Merksätze
+            </h4>
+            <textarea id="topic-notes-editor" oninput="saveTopicNotes()" rows="10" placeholder="Schreibe hier wichtige Formeln, Definitionen oder Merksätze zu diesem Thema auf..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl p-4 text-xs text-slate-200 focus:outline-none focus:border-brand-500 font-mono leading-relaxed"></textarea>
+            <p class="text-[10px] text-slate-500 italic">Änderungen werden sofort lokal gespeichert.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 3. TASKS & PLANNING SECTION -->
+    <section id="section-tasks" class="content-section space-y-6 hidden">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Aufgaben & Planung</h2>
+          <p class="text-xs text-slate-400 mt-1">Verwalte deine To-dos, deadlines und meistere deinen Alltag.</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex items-center gap-1.5 bg-slate-900 p-1.5 rounded-xl border border-slate-800 overflow-x-auto">
+          <button onclick="filterTasks('all')" class="task-filter-pill px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 text-white" data-cat="all">Alle</button>
+          <button onclick="filterTasks('Schule')" class="task-filter-pill px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white" data-cat="Schule">Schule</button>
+          <button onclick="filterTasks('Lernen')" class="task-filter-pill px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white" data-cat="Lernen">Lernen</button>
+          <button onclick="filterTasks('Privat')" class="task-filter-pill px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white" data-cat="Privat">Privat</button>
+        </div>
+      </div>
+
+      <!-- Add New Task Form -->
+      <form onsubmit="handleAddTaskSubmit(event)" class="p-4 rounded-2xl bg-[#131B2A] border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+        <div class="md:col-span-5">
+          <input type="text" id="task-in-title" placeholder="Neue Aufgabe eingeben..." required class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-500">
+        </div>
+        <div class="md:col-span-3">
+          <select id="task-in-cat" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-brand-500">
+            <option value="Schule">Schule</option>
+            <option value="Lernen" selected>Lernen</option>
+            <option value="Privat">Privat</option>
+          </select>
+        </div>
+        <div class="md:col-span-3">
+          <input type="date" id="task-in-date" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-500">
+        </div>
+        <div class="md:col-span-1">
+          <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center shadow-md">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Task Lists -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Offene Aufgaben -->
+        <div class="p-5 rounded-2xl bg-[#131B2A] border border-slate-800 space-y-3">
+          <h3 class="text-sm font-bold text-white flex items-center justify-between">
+            <span>Offene Aufgaben (nach Datum sortiert)</span>
+            <span id="badge-open-tasks-count" class="text-xs text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded font-bold">0</span>
+          </h3>
+          <div id="open-tasks-list" class="space-y-2">
+            <!-- Dynamic Tasks -->
+          </div>
+        </div>
+
+        <!-- Erledigte Aufgaben -->
+        <div class="p-5 rounded-2xl bg-[#131B2A] border border-slate-800 space-y-3">
+          <h3 class="text-sm font-bold text-white flex items-center justify-between">
+            <span>Erledigte Aufgaben</span>
+            <span id="badge-comp-tasks-count" class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-bold">0</span>
+          </h3>
+          <div id="comp-tasks-list" class="space-y-2 opacity-80">
+            <!-- Dynamic Tasks -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CENTER (GOOGLE RESEARCH) SECTION -->
+    <section id="section-center" class="content-section space-y-6 hidden">
+      <div class="text-center max-w-2xl mx-auto space-y-4 pt-6 md:pt-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-300 text-xs font-semibold">
+          <i data-lucide="globe" class="w-3.5 h-3.5"></i> Google Search Engine
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black tracking-tight text-white">Recherche-Zentrale</h2>
+        <p class="text-xs md:text-sm text-slate-400">Nutze das Suchfeld für direkte Google-Abfragen oder steuere Schnellzugriffe an.</p>
+
+        <!-- Form for Google Search -->
+        <form onsubmit="handleGoogleSearchSubmit(event)" class="relative max-w-xl mx-auto mt-6">
+          <input type="text" id="google-search-bar" placeholder="Google Suche eingeben & Enter drücken..." required class="w-full bg-[#131B2A] border-2 border-slate-700/80 rounded-2xl py-4 pl-12 pr-28 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 shadow-2xl transition">
+          <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-4 top-4.5"></i>
+          <button type="submit" class="absolute right-2 top-2 bottom-2 px-4 bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs rounded-xl transition flex items-center justify-center shadow-md">
+            Suchen
+          </button>
+        </form>
+
+        <!-- Quick Access Shortcut Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-6">
+          <a href="https://www.google.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#131B2A] border border-slate-800 text-xs font-semibold text-slate-300 hover:text-white hover:border-slate-700 flex items-center gap-2 shadow-sm transition">
+            <i data-lucide="search" class="w-4 h-4 text-brand-400"></i> Google.com
+          </a>
+          <a href="https://www.youtube.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#131B2A] border border-slate-800 text-xs font-semibold text-slate-300 hover:text-white hover:border-slate-700 flex items-center gap-2 shadow-sm transition">
+            <i data-lucide="video" class="w-4 h-4 text-rose-400"></i> YouTube
+          </a>
+          <a href="https://de.wikipedia.org" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#131B2A] border border-slate-800 text-xs font-semibold text-slate-300 hover:text-white hover:border-slate-700 flex items-center gap-2 shadow-sm transition">
+            <i data-lucide="book-open" class="w-4 h-4 text-indigo-400"></i> Wikipedia
+          </a>
+          <a href="https://chatgpt.com" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#131B2A] border border-slate-800 text-xs font-semibold text-slate-300 hover:text-white hover:border-slate-700 flex items-center gap-2 shadow-sm transition">
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i> ChatGPT
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. EINSTELLUNGEN & DATENSICHERUNG SECTION -->
+    <section id="section-einstellungen" class="content-section space-y-6 hidden">
+      <div>
+        <h2 class="text-2xl font-bold text-white">Einstellungen & Datensicherung</h2>
+        <p class="text-xs text-slate-400 mt-1">Exportiere deine Daten als Backup, importiere sie neu oder verwalte das System.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+        <!-- JSON Backup & Restore -->
+        <div class="p-6 rounded-2xl bg-[#131B2A] border border-slate-800 space-y-4">
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <i data-lucide="database" class="w-4 h-4 text-brand-400"></i> Daten sichern & Wiederherstellen
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Lade deine gesamten Fächer, Themen, Notizen und Aufgaben als JSON-Datei herunter oder stelle ein früheres Backup wieder her.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <button onclick="exportDataJSON()" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition shadow-md">
+              <i data-lucide="download" class="w-4 h-4"></i> Backup exportieren (JSON)
+            </button>
+            <label class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer border border-slate-700">
+              <i data-lucide="upload" class="w-4 h-4"></i> Backup importieren
+              <input type="file" id="import-file-input" accept=".json" onchange="importDataJSON(event)" class="hidden">
+            </label>
+          </div>
+        </div>
+
+        <!-- System Reset -->
+        <div class="p-6 rounded-2xl bg-[#131B2A] border border-slate-800 space-y-4">
+          <h3 class="text-base font-bold text-white flex items-center gap-2 text-rose-400">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400"></i> System zurücksetzen
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Löscht alle aktuell im Browser gespeicherten Daten unwiderruflich und setzt die Anwendung auf den Werkszustand zurück.
+          </p>
+          <div class="pt-2">
+            <button onclick="confirmResetAllData()" class="px-4 py-2.5 bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30 rounded-xl text-xs font-semibold transition">
+              Alle Daten unwiderruflich löschen
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: NEUES FACH ANLEGEN -->
+  <div id="modal-new-subject" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#131B2A] border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white">Neues Schulfach hinzufügen</h3>
+        <button onclick="closeNewSubjectModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Fachbezeichnung (z. B. Wirtschaftsinformatik)</label>
+        <input type="text" id="input-new-subject-name" placeholder="Name des Fachs..." required class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500">
+      </div>
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="closeNewSubjectModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Abbrechen</button>
+        <button onclick="saveNewSubjectSubmit()" class="px-4 py-2 rounded-xl bg-brand-600 text-white text-xs font-bold shadow-md">Fach anlegen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AUFGABE BEARBEITEN -->
+  <div id="modal-edit-task" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#131B2A] border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white">Aufgabe bearbeiten</h3>
+        <button onclick="closeEditTaskModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <input type="hidden" id="edit-task-id">
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Titel der Aufgabe</label>
+          <input type="text" id="edit-task-title" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Kategorie</label>
+          <select id="edit-task-category" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-500">
+            <option value="Schule">Schule</option>
+            <option value="Lernen">Lernen</option>
+            <option value="Privat">Privat</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Fälligkeitsdatum</label>
+          <input type="date" id="edit-task-date" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-500">
+        </div>
+      </div>
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="closeEditTaskModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold">Abbrechen</button>
+        <button onclick="saveTaskChanges()" class="px-4 py-2 rounded-xl bg-brand-600 text-white text-xs font-bold shadow-md">Speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION JAVASCRIPT LOGIC -->
+  <script>
+    // INITIAL SYSTEM STATE & SAMPLE DATA (FACHABI & IT-SYSTEME WASSERFALLMODELL)
+    const defaultData = {
+      subjects: [
+        {
+          id: 1,
+          name: "IT-Systeme",
+          topics: [
+            {
+              id: 101,
+              title: "Wasserfallmodell",
+              notes: "Das Wasserfallmodell ist ein lineares, sequenzielles Vorgehensmodell in der Softwareentwicklung.",
+              subtopics: [
+                { id: 1001, title: "Analyse (Anforderungen erfassen)", status: "Verstanden" },
+                { id: 1002, title: "Entwurf (Systemarchitektur)", status: "Gerade am Lernen" },
+                { id: 1003, title: "Implementierung (Programmierung)", status: "Verstanden" },
+                { id: 1004, title: "Integration & Systemtest", status: "Noch nicht gelernt" },
+                { id: 1005, title: "Test (Abnahme)", status: "Selbstständig anwendbar" },
+                { id: 1006, title: "Installation & Übergabe", status: "Noch nicht gelernt" },
+                { id: 1007, title: "Einsatz & Betrieb", status: "Noch nicht gelernt" },
+                { id: 1008, title: "Wartung & Instandhaltung", status: "Noch nicht gelernt" },
+                { id: 1009, title: "Lastenheft vs. Pflichtenheft", status: "Verstanden" }
+              ]
+            }
+          ]
+        },
+        { id: 2, name: "BWL", topics: [] },
+        { id: 3, name: "Französisch", topics: [] },
+        { id: 4, name: "Deutsch", topics: [] },
+        { id: 5, name: "Mathematik", topics: [] }
+      ],
+      tasks: [
+        { id: 1, title: "Wasserfallmodell Unterthemen lernen", category: "Lernen", date: "2026-11-03", completed: false },
+        { id: 2, title: "BWL Kosten- und Leistungsrechnung wiederholen", category: "Schule", date: "2026-11-04", completed: false }
+      ]
+    };
+
+    let appState = JSON.parse(JSON.stringify(defaultData));
+    let activeTopicContext = { subjectId: null, topicId: null };
+    let currentTaskFilter = 'all';
+
+    // APP LIFECYCLE
+    document.addEventListener("DOMContentLoaded", function() {
+      loadLocalStorage();
+      renderAll();
+      lucide.createIcons();
+    });
+
+    // LOCAL STORAGE MANAGEMENT WITH AUTO MIGRATION
+    function loadLocalStorage() {
+      const saved = localStorage.getItem("northstar_office_v2_data");
+      if (saved) {
+        try {
+          appState = JSON.parse(saved);
+        } catch(e) {
+          console.error("Failed to parse LocalStorage data", e);
+        }
+      }
+    }
+
+    function saveLocalStorage() {
+      localStorage.setItem("northstar_office_v2_data", JSON.stringify(appState));
+    }
+
+    // MAIN RENDER CONTROLLER
+    function renderAll() {
+      renderDashboard();
+      renderSubjectsGrid();
+      renderTasks();
+      lucide.createIcons();
+    }
+
+    // TAB NAVIGATION LOGIC
+    function switchTab(tabId) {
+      document.querySelectorAll(".content-section").forEach(sec => sec.classList.add("hidden"));
+      const targetSec = document.getElementById(`section-${tabId}`);
+      if (targetSec) targetSec.classList.remove("hidden");
+
+      document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.classList.remove("bg-brand-600", "text-white", "shadow-lg", "shadow-brand-600/25");
+        btn.classList.add("text-slate-300");
+      });
+
+      const activeNav = document.getElementById(`nav-${tabId}`);
+      if (activeNav) {
+        activeNav.classList.add("bg-brand-600", "text-white", "shadow-lg", "shadow-brand-600/25");
+        activeNav.classList.remove("text-slate-300");
+      }
+
+      // Hide Mobile Sidebar if open
+      const sidebar = document.getElementById("sidebar");
+      const backdrop = document.getElementById("sidebar-backdrop");
+      if (!sidebar.classList.contains("-translate-x-full")) {
+        sidebar.classList.add("-translate-x-full");
+        backdrop.classList.add("hidden");
+      }
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById("sidebar").classList.toggle("-translate-x-full");
+      document.getElementById("sidebar-backdrop").classList.toggle("hidden");
+    }
+
+    // DASHBOARD DYNAMIC METRICS & CALCULATIONS
+    function renderDashboard() {
+      const todayStr = getTodayISO();
+      
+      // Calculate Tasks Stats
+      const openTasks = appState.tasks.filter(t => !t.completed);
+      const overdueTasks = openTasks.filter(t => t.date && t.date < todayStr);
+
+      document.getElementById("dash-open-tasks-count").innerText = openTasks.length;
+      document.getElementById("sidebar-open-count").innerText = openTasks.length;
+      
+      const overdueBadge = document.getElementById("dash-overdue-badge");
+      if (overdueTasks.length > 0) {
+        overdueBadge.classList.remove("hidden");
+      } else {
+        overdueBadge.classList.add("hidden");
+      }
+
+      // Calculate Learning Stats
+      let totalSubtopics = 0;
+      let learnedSubtopics = 0;
+      let openSubtopicsList = [];
+
+      appState.subjects.forEach(subj => {
+        subj.topics.forEach(top => {
+          top.subtopics.forEach(sub => {
+            totalSubtopics++;
+            if (sub.status === "Verstanden" || sub.status === "Selbstständig anwendbar") {
+              learnedSubtopics++;
+            } else {
+              openSubtopicsList.push({ subjectName: subj.name, topicTitle: top.title, subTitle: sub.title });
+            }
+          });
+        });
+      });
+
+      const overallPercent = totalSubtopics > 0 ? Math.round((learnedSubtopics / totalSubtopics) * 100) : 0;
+      document.getElementById("dash-subjects-count").innerText = appState.subjects.length;
+      document.getElementById("dash-overall-progress-text").innerText = `${overallPercent}%`;
+      document.getElementById("dash-learned-subtopics-ratio").innerText = `${learnedSubtopics}/${totalSubtopics}`;
+
+      // Render Today & Upcoming Tasks List in Dashboard
+      const dashTasksCont = document.getElementById("dash-today-tasks-container");
+      dashTasksCont.innerHTML = "";
+
+      if (openTasks.length === 0) {
+        dashTasksCont.innerHTML = `<p class="text-xs text-slate-400 italic py-2">Keine offenen Aufgaben für heute. Perfekt vorbereitet!</p>`;
+      } else {
+        // Sort open tasks by date
+        const sortedOpen = [...openTasks].sort((a, b) => (a.date || '9999') > (b.date || '9999') ? 1 : -1);
+        sortedOpen.slice(0, 4).forEach(t => {
+          const isOverdue = t.date && t.date < todayStr;
+          const isToday = t.date === todayStr;
+          
+          const div = document.createElement("div");
+          div.className = `p-3 rounded-xl border flex items-center justify-between gap-3 ${isOverdue ? 'bg-rose-950/20 border-rose-500/30' : isToday ? 'bg-brand-950/20 border-brand-500/30' : 'bg-slate-900 border-slate-800'}`;
+          div.innerHTML = `
+            <div class="flex items-center gap-3 min-w-0">
+              <button onclick="toggleTaskComplete(${t.id})" class="w-5 h-5 rounded border border-slate-600 hover:border-brand-400 flex items-center justify-center shrink-0"></button>
+              <div class="min-w-0">
+                <p class="text-xs font-semibold text-slate-200 truncate">${t.title}</p>
+                <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
+                  <span class="px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-medium">${t.category}</span>
+                  ${t.date ? `<span class="${isOverdue ? 'text-rose-400 font-bold' : isToday ? 'text-brand-400 font-bold' : ''}">${isOverdue ? '⚠️ Überfällig: ' : ''}${t.date}</span>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+          dashTasksCont.appendChild(div);
+        });
+      }
+
+      // Smart Next Step Calculation
+      const smartStepCont = document.getElementById("dash-smart-next-step");
+      if (overdueTasks.length > 0) {
+        smartStepCont.innerHTML = `
+          <p class="text-xs font-bold text-white">Überfällige Aufgabe erledigen:</p>
+          <p class="text-xs text-slate-300 mt-1">„${overdueTasks[0].title}“ steht aus.</p>
+          <button onclick="switchTab('tasks')" class="text-xs text-amber-400 hover:underline font-semibold mt-2 inline-block">Zur Aufgabenplanung &rarr;</button>
+        `;
+      } else if (openSubtopicsList.length > 0) {
+        const nextSub = openSubtopicsList[0];
+        smartStepCont.innerHTML = `
+          <p class="text-xs font-bold text-white">Lernthema vertiefen:</p>
+          <p class="text-xs text-slate-300 mt-1">Lerne <strong>${nextSub.subTitle}</strong> in <strong>${nextSub.subjectName}</strong>.</p>
+          <button onclick="switchTab('lernen')" class="text-xs text-brand-400 hover:underline font-semibold mt-2 inline-block">Zum Lernbereich &rarr;</button>
+        `;
+      } else {
+        smartStepCont.innerHTML = `
+          <p class="text-xs font-bold text-white">Alles im grünen Bereich!</p>
+          <p class="text-xs text-slate-300 mt-1">Alle Unterthemen verstanden und Aufgaben erledigt.</p>
+        `;
+      }
+
+      // Open Learning Baustellen
+      const openLearnCont = document.getElementById("dash-open-learning-items");
+      openLearnCont.innerHTML = "";
+      if (openSubtopicsList.length === 0) {
+        openLearnCont.innerHTML = `<p class="text-xs text-slate-400 italic">Alle Themen wurden verstanden.</p>`;
+      } else {
+        openSubtopicsList.slice(0, 3).forEach(item => {
+          const div = document.createElement("div");
+          div.className = "p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs flex justify-between items-center";
+          div.innerHTML = `
+            <span class="text-slate-200 font-medium truncate">${item.subTitle}</span>
+            <span class="text-[10px] text-indigo-400 font-bold px-2 py-0.5 rounded bg-indigo-500/10 shrink-0">${item.subjectName}</span>
+          `;
+          openLearnCont.appendChild(div);
+        });
+      }
+    }
+
+    // SUBJECTS & TOPICS MANAGEMENT
+    function renderSubjectsGrid() {
+      const container = document.getElementById("subjects-grid");
+      container.innerHTML = "";
+
+      appState.subjects.forEach(subj => {
+        let subjTotal = 0;
+        let subjLearned = 0;
+
+        subj.topics.forEach(t => {
+          t.subtopics.forEach(sub => {
+            subjTotal++;
+            if (sub.status === "Verstanden" || sub.status === "Selbstständig anwendbar") subjLearned++;
+          });
+        });
+
+        const subjPercent = subjTotal > 0 ? Math.round((subjLearned / subjTotal) * 100) : 0;
+
+        const card = document.createElement("div");
+        card.className = "p-5 rounded-2xl bg-[#131B2A] border border-slate-800 space-y-4 shadow-sm hover:border-slate-700 transition flex flex-col justify-between";
+        
+        let topicsHtml = "";
+        if (subj.topics.length === 0) {
+          topicsHtml = `<p class="text-xs text-slate-500 italic py-2">Noch keine Themen angelegt.</p>`;
+        } else {
+          subj.topics.forEach(top => {
+            let topTotal = top.subtopics.length;
+            let topLearned = top.subtopics.filter(s => s.status === "Verstanden" || s.status === "Selbstständig anwendbar").length;
+            let topPercent = topTotal > 0 ? Math.round((topLearned / topTotal) * 100) : 0;
+
+            topicsHtml += `
+              <div onclick="openTopicDetail(${subj.id}, ${top.id})" class="p-3 rounded-xl bg-slate-900 border border-slate-800/80 cursor-pointer hover:border-brand-500/50 transition space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-200 truncate">${top.title}</span>
+                  <span class="text-[10px] font-bold text-slate-400">${topLearned}/${topTotal}</span>
+                </div>
+                <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+                  <div class="bg-brand-500 h-full rounded-full transition-all" style="width: ${topPercent}%"></div>
+                </div>
+              </div>
+            `;
+          });
+        }
+
+        card.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <h3 class="text-base font-bold text-white">${subj.name}</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">${subjLearned} von ${subjTotal} Unterthemen verstanden</p>
+              </div>
+              <button onclick="deleteSubject(${subj.id})" title="Fach löschen" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- Subject Progress Bar -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px]">
+                <span class="text-slate-400">Fortschritt</span>
+                <span class="font-bold text-emerald-400">${subjPercent}%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full transition-all" style="width: ${subjPercent}%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-2 pt-2">
+              ${topicsHtml}
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-800/60">
+            <button onclick="promptAddTopic(${subj.id})" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center justify-center gap-1.5">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Thema hinzufügen
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    // TOPIC DETAIL VIEWER & EDITING
+    function openTopicDetail(subjectId, topicId) {
+      activeTopicContext = { subjectId, topicId };
+      const subject = appState.subjects.find(s => s.id === subjectId);
+      const topic = subject.topics.find(t => t.id === topicId);
+
+      document.getElementById("detail-subject-tag").innerText = subject.name;
+      document.getElementById("detail-topic-title").innerText = topic.title;
+      document.getElementById("topic-notes-editor").value = topic.notes || "";
+
+      renderSubtopicsList(topic);
+      document.getElementById("topic-detail-card").classList.remove("hidden");
+      document.getElementById("topic-detail-card").scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeTopicDetail() {
+      document.getElementById("topic-detail-card").classList.add("hidden");
+      activeTopicContext = { subjectId: null, topicId: null };
+    }
+
+    function renderSubtopicsList(topic) {
+      const container = document.getElementById("subtopics-container");
+      container.innerHTML = "";
+
+      let total = topic.subtopics.length;
+      let learned = topic.subtopics.filter(s => s.status === "Verstanden" || s.status === "Selbstständig anwendbar").length;
+      let percent = total > 0 ? Math.round((learned / total) * 100) : 0;
+      document.getElementById("detail-topic-progress-text").innerText = `${percent}% Verstanden (${learned}/${total})`;
+
+      const statuses = ["Noch nicht gelernt", "Gerade am Lernen", "Verstanden", "Selbstständig anwendbar"];
+
+      topic.subtopics.forEach(sub => {
+        const div = document.createElement("div");
+        div.className = "p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-2";
+        
+        let statusPills = `<div class="flex items-center gap-1 flex-wrap">`;
+        statuses.forEach(st => {
+          const isActive = sub.status === st;
+          statusPills += `
+            <button onclick="setSubtopicStatus(${sub.id}, '${st}')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold transition ${isActive ? 'bg-brand-600 text-white shadow-sm' : 'bg-slate-800 text-slate-400 hover:text-white'}">
+              ${st}
+            </button>
+          `;
+        });
+        statusPills += `</div>`;
+
+        div.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-bold text-slate-200">${sub.title}</span>
+            <div class="flex items-center gap-1">
+              <button onclick="editSubtopicTitle(${sub.id})" title="Bearbeiten" class="p-1 text-slate-500 hover:text-slate-300"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
+              <button onclick="deleteSubtopic(${sub.id})" title="Löschen" class="p-1 text-slate-500 hover:text-rose-400"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </div>
+          </div>
+          ${statusPills}
+        `;
+        container.appendChild(div);
+      });
+      lucide.createIcons();
+    }
+
+    function setSubtopicStatus(subId, newStatus) {
+      const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
+      const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
+      const sub = topic.subtopics.find(s => s.id === subId);
+      if (sub) {
+        sub.status = newStatus;
+        saveLocalStorage();
+        renderSubtopicsList(topic);
+        renderSubjectsGrid();
+        renderDashboard();
+      }
+    }
+
+    function saveTopicNotes() {
+      if (!activeTopicContext.topicId) return;
+      const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
+      const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
+      topic.notes = document.getElementById("topic-notes-editor").value;
+      saveLocalStorage();
+    }
+
+    function editCurrentTopicTitle() {
+      const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
+      const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
+      const newTitle = prompt("Neuer Name für dieses Thema:", topic.title);
+      if (newTitle && newTitle.trim()) {
+        topic.title = newTitle.trim();
+        saveLocalStorage();
+        document.getElementById("detail-topic-title").innerText = topic.title;
+        renderSubjectsGrid();
+      }
+    }
+
+    function deleteCurrentTopic() {
+      if (confirm("Möchtest du dieses Thema wirklich löschen?")) {
+        const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
+        subject.topics = subject.topics.filter(t => t.id !== activeTopicContext.topicId);
+        saveLocalStorage();
+        closeTopicDetail();
+        renderSubjectsGrid();
+        renderDashboard();
+      }
+    }
+
+    function promptAddTopic(subjectId) {
+      const title = prompt("Name des neuen Themas:");
+      if (title && title.trim()) {
+        const subject = appState.subjects.find(s => s.id === subjectId);
+        const newTopic = {
+          id: Date.now(),
+          title: title.trim(),
+          notes: "",
+          subtopics: [
+            { id: Date.now() + 1, title: "Grundlagen & Begriffe", status: "Noch nicht gelernt" },
+            { id: Date.now() + 2, title: "Praxisanwendung & Übung", status: "Noch nicht gelernt" }
+          ]
+        };
+        subject.topics.push(newTopic);
+        saveLocalStorage();
+        renderSubjectsGrid();
+      }
+    }
+
+    function promptAddSubtopic() {
+      const title = prompt("Name des Unterthemas:");
+      if (title && title.trim() && activeTopicContext.topicId) {
+        const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
+        const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
+        topic.subtopics.push({ id: Date.now(), title: title.trim(), status: "Noch nicht gelernt" });
+        saveLocalStorage();
+        renderSubtopicsList(topic);
+        renderSubjectsGrid();
+        renderDashboard();
+      }
+    }
+
+    function editSubtopicTitle(subId) {
+      const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
+      const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
+      const sub = topic.subtopics.find(s => s.id === subId);
+      const newTitle = prompt("Unterthema umbenennen:", sub.title);
+      if (newTitle && newTitle.trim()) {
+        sub.title = newTitle.trim();
+        saveLocalStorage();
+        renderSubtopicsList(topic);
+      }
+    }
+
+    function deleteSubtopic(subId) {
+      const subject = appState.subjects.find(s => s.id === activeTopicContext.subjectId);
+      const topic = subject.topics.find(t => t.id === activeTopicContext.topicId);
+      topic.subtopics = topic.subtopics.filter(s => s.id !== subId);
+      saveLocalStorage();
+      renderSubtopicsList(topic);
+      renderSubjectsGrid();
+      renderDashboard();
+    }
+
+    function openNewSubjectModal() {
+      document.getElementById("modal-new-subject").classList.remove("hidden");
+    }
+
+    function closeNewSubjectModal() {
+      document.getElementById("modal-new-subject").classList.add("hidden");
+    }
+
+    function saveNewSubjectSubmit() {
+      const name = document.getElementById("input-new-subject-name").value.trim();
+      if (name) {
+        appState.subjects.push({ id: Date.now(), name, topics: [] });
+        saveLocalStorage();
+        renderSubjectsGrid();
+        renderDashboard();
+        closeNewSubjectModal();
+        document.getElementById("input-new-subject-name").value = "";
+      }
+    }
+
+    function deleteSubject(subjectId) {
+      if (confirm("Möchtest du dieses Schulfach samt aller Themen löschen?")) {
+        appState.subjects = appState.subjects.filter(s => s.id !== subjectId);
+        saveLocalStorage();
+        renderSubjectsGrid();
+        renderDashboard();
+      }
+    }
+
+    // TASK MANAGEMENT
+    function renderTasks() {
+      const openCont = document.getElementById("open-tasks-list");
+      const compCont = document.getElementById("comp-tasks-list");
+      openCont.innerHTML = "";
+      compCont.innerHTML = "";
+
+      const todayStr = getTodayISO();
+
+      const filtered = appState.tasks.filter(t => currentTaskFilter === 'all' || t.category === currentTaskFilter);
+      const openTasks = filtered.filter(t => !t.completed).sort((a,b) => (a.date || '9999') > (b.date || '9999') ? 1 : -1);
+      const compTasks = filtered.filter(t => t.completed);
+
+      document.getElementById("badge-open-tasks-count").innerText = openTasks.length;
+      document.getElementById("badge-comp-tasks-count").innerText = compTasks.length;
+
+      if (openTasks.length === 0) {
+        openCont.innerHTML = `<p class="text-xs text-slate-500 italic py-2">Keine offenen Aufgaben in dieser Kategorie.</p>`;
+      } else {
+        openTasks.forEach(task => {
+          const isOverdue = task.date && task.date < todayStr;
+          const isToday = task.date === todayStr;
+
+          const div = document.createElement("div");
+          div.className = `p-3.5 rounded-xl border flex items-center justify-between gap-3 ${isOverdue ? 'bg-rose-950/20 border-rose-500/30' : isToday ? 'bg-brand-950/20 border-brand-500/30' : 'bg-slate-900 border-slate-800'}`;
+          div.innerHTML = `
+            <div class="flex items-center gap-3 min-w-0">
+              <button onclick="toggleTaskComplete(${task.id})" class="w-5 h-5 rounded border border-slate-600 hover:border-brand-400 flex items-center justify-center shrink-0"></button>
+              <div class="min-w-0">
+                <p class="text-xs font-bold text-slate-200 truncate">${task.title}</p>
+                <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
+                  <span class="px-1.5 py-0.2 rounded bg-slate-800 font-semibold">${task.category}</span>
+                  ${task.date ? `<span class="${isOverdue ? 'text-rose-400 font-bold' : isToday ? 'text-brand-400 font-bold' : ''}">${isOverdue ? '⚠️ Überfällig: ' : ''}${task.date}</span>` : ''}
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1">
+              <button onclick="openEditTaskModal(${task.id})" class="p-1.5 text-slate-500 hover:text-slate-300"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+              <button onclick="deleteTask(${task.id})" class="p-1.5 text-slate-500 hover:text-rose-400"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+            </div>
+          `;
+          openCont.appendChild(div);
+        });
+      }
+
+      if (compTasks.length === 0) {
+        compCont.innerHTML = `<p class="text-xs text-slate-500 italic py-2">Keine erledigten Aufgaben.</p>`;
+      } else {
+        compTasks.forEach(task => {
+          const div = document.createElement("div");
+          div.className = "p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between gap-3";
+          div.innerHTML = `
+            <div class="flex items-center gap-3 min-w-0">
+              <button onclick="toggleTaskComplete(${task.id})" class="w-5 h-5 rounded bg-emerald-500 border border-emerald-500 text-white flex items-center justify-center shrink-0">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+              </button>
+              <p class="text-xs font-medium text-slate-400 line-through truncate">${task.title}</p>
+            </div>
+            <button onclick="deleteTask(${task.id})" class="p-1.5 text-slate-500 hover:text-rose-400"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+          `;
+          compCont.appendChild(div);
+        });
+      }
+
+      lucide.createIcons();
+    }
+
+    function handleAddTaskSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById("task-in-title").value.trim();
+      const category = document.getElementById("task-in-cat").value;
+      const date = document.getElementById("task-in-date").value || getTodayISO();
+
+      if (title) {
+        appState.tasks.push({ id: Date.now(), title, category, date, completed: false });
+        saveLocalStorage();
+        renderTasks();
+        renderDashboard();
+        document.getElementById("task-in-title").value = "";
+      }
+    }
+
+    function toggleTaskComplete(id) {
+      const task = appState.tasks.find(t => t.id === id);
+      if (task) {
+        task.completed = !task.completed;
+        saveLocalStorage();
+        renderTasks();
+        renderDashboard();
+      }
+    }
+
+    function deleteTask(id) {
+      appState.tasks = appState.tasks.filter(t => t.id !== id);
+      saveLocalStorage();
+      renderTasks();
+      renderDashboard();
+    }
+
+    function filterTasks(category) {
+      currentTaskFilter = category;
+      document.querySelectorAll(".task-filter-pill").forEach(btn => {
+        if (btn.getAttribute("data-cat") === category) {
+          btn.classList.add("bg-brand-600", "text-white");
+          btn.classList.remove("text-slate-400");
+        } else {
+          btn.classList.remove("bg-brand-600", "text-white");
+          btn.classList.add("text-slate-400");
+        }
+      });
+      renderTasks();
+    }
+
+    function openEditTaskModal(id) {
+      const task = appState.tasks.find(t => t.id === id);
+      if (task) {
+        document.getElementById("edit-task-id").value = task.id;
+        document.getElementById("edit-task-title").value = task.title;
+        document.getElementById("edit-task-category").value = task.category;
+        document.getElementById("edit-task-date").value = task.date || "";
+        document.getElementById("modal-edit-task").classList.remove("hidden");
+      }
+    }
+
+    function closeEditTaskModal() {
+      document.getElementById("modal-edit-task").classList.add("hidden");
+    }
+
+    function saveTaskChanges() {
+      const id = parseInt(document.getElementById("edit-task-id").value);
+      const task = appState.tasks.find(t => t.id === id);
+      if (task) {
+        task.title = document.getElementById("edit-task-title").value.trim();
+        task.category = document.getElementById("edit-task-category").value;
+        task.date = document.getElementById("edit-task-date").value;
+        saveLocalStorage();
+        renderTasks();
+        renderDashboard();
+        closeEditTaskModal();
+      }
+    }
+
+    // GOOGLE CENTER SEARCH FUNCTION
+    function handleGoogleSearchSubmit(e) {
+      e.preventDefault();
+      const query = document.getElementById("google-search-bar").value.trim();
+      if (query) {
+        window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+      }
+    }
+
+    // JSON EXPORT & IMPORT BACKUP SYSTEM
+    function exportDataJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `northstar_backup_${getTodayISO()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importDataJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const imported = JSON.parse(evt.target.result);
+          if (imported.subjects && imported.tasks) {
+            appState = imported;
+            saveLocalStorage();
+            renderAll();
+            alert("Backup erfolgreich importiert!");
+          } else {
+            alert("Ungültiges Dateiformat.");
+          }
+        } catch(err) {
+          alert("Fehler beim Lesen der JSON-Datei.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function confirmResetAllData() {
+      if (confirm("WARNUNG: Möchtest du wirklich alle Daten löschen? Dies kann nicht rückgängig gemacht werden.")) {
+        localStorage.removeItem("northstar_office_v2_data");
+        appState = JSON.parse(JSON.stringify(defaultData));
+        saveLocalStorage();
+        renderAll();
+        alert("Das System wurde auf die Standarddaten zurückgesetzt.");
+      }
+    }
+
+    // HELPER FUNCTIONS
+    function getTodayISO() {
+      const now = new Date();
+      return now.toISOString().split('T')[0];
+    }
+
+    // TIMER LOGIC
+    let timerMins = 25, timerSecs = 0, timerInterval = null, timerRunning = false;
+    function toggleTimer() {
+      const icon = document.getElementById("timer-icon");
+      if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        icon.setAttribute("data-lucide", "play");
+      } else {
+        timerRunning = true;
+        icon.setAttribute("data-lucide", "pause");
+        timerInterval = setInterval(() => {
+          if (timerSecs === 0) {
+            if (timerMins === 0) {
+              clearInterval(timerInterval);
+              timerRunning = false;
+              alert("Fokus-Zeit abgelaufen!");
+              resetTimer();
+              return;
+            }
+            timerMins--;
+            timerSecs = 59;
+          } else {
+            timerSecs--;
+          }
+          document.getElementById("timer-display").innerText = `${String(timerMins).padStart(2,'0')}:${String(timerSecs).padStart(2,'0')}`;
+        }, 1000);
+      }
+      lucide.createIcons();
+    }
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerMins = 25; timerSecs = 0;
+      document.getElementById("timer-display").innerText = "25:00";
+      document.getElementById("timer-icon").setAttribute("data-lucide", "play");
+      lucide.createIcons();
+    }
+    function promptTimerMinutes() {
+      const mins = prompt("Minuten für Fokus-Timer:", timerMins);
+      if (mins && !isNaN(mins) && mins > 0) {
+        timerMins = parseInt(mins);
+        timerSecs = 0;
+        document.getElementById("timer-display").innerText = `${String(timerMins).padStart(2,'0')}:00`;
+      }
+    }
+  </script>
+</body>
+</html>
