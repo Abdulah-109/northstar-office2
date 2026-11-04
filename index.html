@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Northstar – Classic Edition mit Farbanpassung</title>
+  <title>Northstar – Classic Edition mit Digitalem Notizheft</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -45,6 +45,20 @@
     ::-webkit-scrollbar-track { background: var(--color-bg, #F5F1E8); }
     ::-webkit-scrollbar-thumb { background: var(--color-border, #DED5C8); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--color-accent, #C8B69B); }
+
+    .paper-pattern-grid {
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .paper-pattern-lines {
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+      background-size: 100% 24px;
+    }
+    .paper-pattern-dots {
+      background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
   </style>
 </head>
 <body class="h-full flex flex-col md:flex-row overflow-hidden antialiased selection:bg-[var(--color-accent,#C8B69B)] selection:text-white">
@@ -85,6 +99,11 @@
       <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition bg-[var(--color-accent,#C8B69B)] text-white shadow-sm">
         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
         <span>Dashboard</span>
+      </button>
+
+      <button onclick="switchTab('notebooks')" id="nav-notebooks" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[var(--color-text,#34312D)] hover:bg-[var(--color-card,#FFFDF8)]/60">
+        <i data-lucide="book" class="w-4 h-4 text-[var(--color-muted,#81796F)]"></i>
+        <span>Digitales Notizheft</span>
       </button>
 
       <button onclick="switchTab('lernen')" id="nav-lernen" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition text-[var(--color-text,#34312D)] hover:bg-[var(--color-card,#FFFDF8)]/60">
@@ -171,10 +190,10 @@
         </div>
 
         <div class="p-4 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs">
-          <p class="text-xs font-bold text-[var(--color-muted,#81796F)]">Aktive Schulfächer</p>
+          <p class="text-xs font-bold text-[var(--color-muted,#81796F)]">Digitale Notizbücher</p>
           <div class="flex items-baseline justify-between mt-2">
-            <span class="text-2xl font-extrabold text-[var(--color-text,#34312D)]" id="dash-subjects-count">0</span>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-muted,#81796F)]">Fächer</span>
+            <span class="text-2xl font-extrabold text-[var(--color-text,#34312D)]" id="dash-notebooks-count">0</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-muted,#81796F)]">Hefte</span>
           </div>
         </div>
 
@@ -217,7 +236,124 @@
       </div>
     </section>
 
-    <!-- ================= 2. LERNBEREICH & FÄCHER ================= -->
+    <!-- ================= 2. DIGITALES NOTIZHEFT (GOODNOTES STYLE) ================= -->
+    <section id="section-notebooks" class="content-section space-y-6 hidden">
+      <!-- Notebook Shelf View -->
+      <div id="notebook-shelf-view" class="space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-[var(--color-text,#34312D)]">Digitales Notizheft</h2>
+            <p class="text-xs text-[var(--color-muted,#81796F)] mt-1">Verwalte deine Notizbücher mit handschriftlichen Skizzen und getippten Mitschriften.</p>
+          </div>
+          <button onclick="promptCreateNotebook()" class="px-4 py-2.5 rounded-xl bg-[var(--color-accent,#C8B69B)] hover:bg-[var(--color-accent-hover,#B5A182)] text-white font-semibold text-xs shadow-xs transition flex items-center gap-2">
+            <i data-lucide="plus" class="w-4 h-4"></i> Neues Notizbuch
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6" id="notebook-shelf-grid"></div>
+      </div>
+
+      <!-- Single Notebook Canvas & Editor Canvas View -->
+      <div id="notebook-editor-view" class="space-y-4 hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-[var(--color-card,#FFFDF8)] p-4 rounded-2xl border border-[var(--color-border,#DED5C8)] shadow-xs">
+          <div class="flex items-center gap-3">
+            <button onclick="closeNotebookEditor()" class="p-2 rounded-xl bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-text,#34312D)] hover:bg-[var(--color-border,#DED5C8)] transition">
+              <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </button>
+            <div>
+              <h3 id="active-nb-title" class="font-extrabold text-base text-[var(--color-text,#34312D)]">Notizbuch</h3>
+              <p id="active-nb-subject" class="text-[10px] text-[var(--color-muted,#81796F)] font-bold uppercase">Fach-Tag</p>
+            </div>
+          </div>
+
+          <!-- Drawing Toolbar -->
+          <div class="flex flex-wrap items-center gap-2 bg-[var(--color-sidebar,#EAE2D5)] p-2 rounded-xl border border-[var(--color-border,#DED5C8)]">
+            <button id="tool-pen" onclick="setDrawingTool('pen')" class="p-2 rounded-lg bg-[var(--color-accent,#C8B69B)] text-white transition" title="Stift">
+              <i data-lucide="pen-tool" class="w-4 h-4"></i>
+            </button>
+            <button id="tool-text" onclick="setDrawingTool('text')" class="p-2 rounded-lg text-[var(--color-muted,#81796F)] hover:text-[var(--color-text,#34312D)] transition font-black text-sm w-8 h-8 flex items-center justify-center" title="Text direkt ins Canvas tippen">
+              T
+            </button>
+            <button id="tool-highlighter" onclick="setDrawingTool('highlighter')" class="p-2 rounded-lg text-[var(--color-muted,#81796F)] hover:text-[var(--color-text,#34312D)] transition" title="Textmarker">
+              <i data-lucide="highlighter" class="w-4 h-4"></i>
+            </button>
+            <button id="tool-eraser" onclick="setDrawingTool('eraser')" class="p-2 rounded-lg text-[var(--color-muted,#81796F)] hover:text-[var(--color-text,#34312D)] transition" title="Radierer">
+              <i data-lucide="eraser" class="w-4 h-4"></i>
+            </button>
+
+            <div class="h-5 w-px bg-[var(--color-border,#DED5C8)] mx-1"></div>
+
+            <!-- Color Palette -->
+            <div class="flex items-center gap-1">
+              <button onclick="setPenColor('#34312D')" class="w-5 h-5 rounded-full bg-[#34312D] border border-white shadow-xs"></button>
+              <button onclick="setPenColor('#2563EB')" class="w-5 h-5 rounded-full bg-[#2563EB] border border-white shadow-xs"></button>
+              <button onclick="setPenColor('#DC2626')" class="w-5 h-5 rounded-full bg-[#DC2626] border border-white shadow-xs"></button>
+              <button onclick="setPenColor('#16A34A')" class="w-5 h-5 rounded-full bg-[#16A34A] border border-white shadow-xs"></button>
+              <input type="color" id="pen-custom-color" onchange="setPenColor(this.value)" class="w-6 h-6 rounded-full cursor-pointer bg-transparent border-0">
+            </div>
+
+            <div class="h-5 w-px bg-[var(--color-border,#DED5C8)] mx-1"></div>
+
+            <!-- Pattern Select -->
+            <select id="paper-pattern-select" onchange="changePaperPattern(this.value)" class="bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] text-xs text-[var(--color-text,#34312D)] rounded-lg px-2 py-1 focus:outline-none">
+              <option value="grid">Kariert</option>
+              <option value="lines">Liniert</option>
+              <option value="dots">Punktiert</option>
+              <option value="blank">Blanko</option>
+            </select>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex items-center gap-2">
+            <button onclick="clearCanvasPage()" class="px-3 py-1.5 rounded-xl bg-[var(--color-sidebar,#EAE2D5)] text-[var(--color-text,#34312D)] text-xs font-semibold hover:bg-red-100 hover:text-red-700 transition">Seite leeren</button>
+            <button onclick="exportCanvasPNG()" class="px-3 py-1.5 rounded-xl bg-[var(--color-accent,#C8B69B)] text-white text-xs font-semibold hover:bg-[var(--color-accent-hover,#B5A182)] transition">PNG Export</button>
+          </div>
+        </div>
+
+        <!-- Canvas and Page Container -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-3">
+            <div class="relative bg-white rounded-2xl border border-[var(--color-border,#DED5C8)] shadow-sm overflow-hidden flex justify-center items-center p-2 min-h-[500px]">
+              <!-- Canvas Background Pattern Layer -->
+              <div id="canvas-paper-bg" class="absolute inset-2 paper-pattern-grid rounded-xl pointer-events-none"></div>
+
+              <!-- Interactive Drawing Canvas (Transparent overlay for pen & eraser) -->
+              <canvas id="notebook-canvas" class="relative z-10 cursor-crosshair rounded-xl touch-none"></canvas>
+            </div>
+
+            <!-- Page Navigation -->
+            <div class="flex items-center justify-between bg-[var(--color-card,#FFFDF8)] p-3 rounded-2xl border border-[var(--color-border,#DED5C8)] shadow-xs">
+              <button onclick="prevCanvasPage()" class="px-3 py-1.5 rounded-xl bg-[var(--color-sidebar,#EAE2D5)] text-xs font-bold text-[var(--color-text,#34312D)] flex items-center gap-1">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i> Zurück
+              </button>
+              <span id="canvas-page-indicator" class="text-xs font-extrabold text-[var(--color-text,#34312D)]">Seite 1 / 1</span>
+              <div class="flex items-center gap-2">
+                <button onclick="deleteCanvasPage()" class="p-1.5 rounded-xl bg-red-50 text-red-700 hover:bg-red-100 text-xs font-semibold" title="Seite löschen">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+                <button onclick="addNewCanvasPage()" class="px-3 py-1.5 rounded-xl bg-[var(--color-accent,#C8B69B)] text-white text-xs font-bold flex items-center gap-1">
+                  <i data-lucide="plus" class="w-4 h-4"></i> Neue Seite
+                </button>
+                <button onclick="nextCanvasPage()" class="px-3 py-1.5 rounded-xl bg-[var(--color-sidebar,#EAE2D5)] text-xs font-bold text-[var(--color-text,#34312D)] flex items-center gap-1">
+                  Weiter <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Typed Page Notes -->
+          <div class="p-5 rounded-2xl bg-[var(--color-card,#FFFDF8)] border border-[var(--color-border,#DED5C8)] shadow-xs space-y-3 flex flex-col">
+            <h4 class="text-sm font-bold text-[var(--color-text,#34312D)] flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4 text-[var(--color-accent,#C8B69B)]"></i> Digitaler Seitentext
+            </h4>
+            <p class="text-[11px] text-[var(--color-muted,#81796F)]">Tippe ergänzenden Text für die aktuell ausgewählte Seite ein:</p>
+            <textarea id="notebook-page-text" oninput="saveCurrentPageText()" rows="18" placeholder="Ergänzende getippte Notizen für diese Seite..." class="flex-1 w-full bg-[var(--color-bg,#F5F1E8)] border border-[var(--color-border,#DED5C8)] rounded-xl p-4 text-xs text-[var(--color-text,#34312D)] focus:outline-none focus:border-[var(--color-accent,#C8B69B)] leading-relaxed font-sans"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3. LERNBEREICH & FÄCHER ================= -->
     <section id="section-lernen" class="content-section space-y-6 hidden">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -270,7 +406,7 @@
       </div>
     </section>
 
-    <!-- ================= 3. TASKS & PLANNING SECTION ================= -->
+    <!-- ================= 4. TASKS & PLANNING SECTION ================= -->
     <section id="section-tasks" class="content-section space-y-6 hidden">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -326,7 +462,7 @@
       </div>
     </section>
 
-    <!-- ================= 4. RESEARCH CENTER (GOOGLE) ================= -->
+    <!-- ================= 5. RESEARCH CENTER (GOOGLE) ================= -->
     <section id="section-center" class="content-section space-y-6 hidden">
       <div class="text-center max-w-2xl mx-auto space-y-4 pt-6 md:pt-10">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-sidebar,#EAE2D5)] border border-[var(--color-border,#DED5C8)] text-[var(--color-text,#34312D)] text-xs font-semibold">
@@ -360,7 +496,7 @@
       </div>
     </section>
 
-    <!-- ================= 5. EINSTELLUNGEN & DESIGN ================= -->
+    <!-- ================= 6. EINSTELLUNGEN & DESIGN ================= -->
     <section id="section-einstellungen" class="content-section space-y-6 hidden">
       <div>
         <h2 class="text-2xl font-bold text-[var(--color-text,#34312D)]">Einstellungen & Design-Anpassung</h2>
@@ -408,7 +544,7 @@
             <i data-lucide="database" class="w-4 h-4 text-[var(--color-accent,#C8B69B)]"></i> Datensicherung & Reset
           </h3>
           <p class="text-xs text-[var(--color-muted,#81796F)] leading-relaxed">
-            Sichere deine gesamten Fächer, Aufgaben und Einstellungen als JSON-Datei oder setze das System zurück.
+            Sichere deine gesamten Fächer, Notizbücher, Aufgaben und Einstellungen als JSON-Datei oder setze das System zurück.
           </p>
 
           <div class="flex flex-col sm:flex-row gap-3 pt-2">
@@ -496,6 +632,28 @@
         text: '#34312D',
         muted: '#81796F'
       },
+      notebooks: [
+        {
+          id: 1,
+          title: "IT-Systeme Skript",
+          subject: "IT-Systeme",
+          color: "#C8B69B",
+          pattern: "grid",
+          pages: [
+            { id: 1, drawingData: null, text: "Vorlesung Mitschrift Software-Entwicklung" }
+          ]
+        },
+        {
+          id: 2,
+          title: "BWL Übungsheft",
+          subject: "BWL",
+          color: "#8D6E63",
+          pattern: "lines",
+          pages: [
+            { id: 1, drawingData: null, text: "Formeln für Kosten- und Leistungsrechnung" }
+          ]
+        }
+      ],
       subjects: [
         {
           id: 1,
@@ -530,19 +688,30 @@
     let activeTopicContext = { subjectId: null, topicId: null };
     let currentTaskFilter = 'all';
 
+    // Digital Notebook State
+    let activeNotebookId = null;
+    let activePageIdx = 0;
+    let currentTool = 'pen'; // 'pen', 'text', 'highlighter', 'eraser'
+    let currentPenColor = '#34312D';
+    let isDrawing = false;
+    let lastX = 0, lastY = 0;
+    let canvas, ctx;
+
     document.addEventListener("DOMContentLoaded", function() {
       loadLocalStorage();
       applyThemeToDOM();
+      initCanvas();
       renderAll();
       lucide.createIcons();
     });
 
     function loadLocalStorage() {
-      const saved = localStorage.getItem("northstar_office_classic_data");
+      const saved = localStorage.getItem("northstar_office_classic_notebook_data");
       if (saved) {
         try {
           appState = JSON.parse(saved);
           if (!appState.themeColors) appState.themeColors = defaultData.themeColors;
+          if (!appState.notebooks) appState.notebooks = defaultData.notebooks;
         } catch(e) {
           console.error("Failed to parse LocalStorage data", e);
         }
@@ -550,7 +719,7 @@
     }
 
     function saveLocalStorage() {
-      localStorage.setItem("northstar_office_classic_data", JSON.stringify(appState));
+      localStorage.setItem("northstar_office_classic_notebook_data", JSON.stringify(appState));
     }
 
     function applyThemeToDOM() {
@@ -596,6 +765,7 @@
 
     function renderAll() {
       renderDashboard();
+      renderNotebookShelf();
       renderSubjectsGrid();
       renderTasks();
       lucide.createIcons();
@@ -615,6 +785,10 @@
       if (activeNav) {
         activeNav.classList.add("bg-[var(--color-accent,#C8B69B)]", "text-white", "shadow-sm");
         activeNav.classList.remove("text-[var(--color-text,#34312D)]");
+      }
+
+      if (tabId === 'notebooks') {
+        setTimeout(resizeCanvas, 100);
       }
 
       const sidebar = document.getElementById("sidebar");
@@ -637,6 +811,7 @@
 
       document.getElementById("dash-open-tasks-count").innerText = openTasks.length;
       document.getElementById("sidebar-open-count").innerText = openTasks.length;
+      document.getElementById("dash-notebooks-count").innerText = appState.notebooks.length;
       
       const overdueBadge = document.getElementById("dash-overdue-badge");
       if (overdueTasks.length > 0) overdueBadge.classList.remove("hidden");
@@ -713,6 +888,326 @@
       }
     }
 
+    // ================= DIGITAL NOTEBOOK FUNCTIONS =================
+    function renderNotebookShelf() {
+      const grid = document.getElementById("notebook-shelf-grid");
+      grid.innerHTML = "";
+
+      appState.notebooks.forEach(nb => {
+        const cover = document.createElement("div");
+        cover.className = "group relative cursor-pointer flex flex-col items-center";
+        cover.onclick = () => openNotebookEditor(nb.id);
+
+        cover.innerHTML = `
+          <div class="w-full h-48 rounded-r-2xl rounded-l-md shadow-md transition transform group-hover:-translate-y-1 group-hover:shadow-lg flex flex-col justify-between p-4 relative overflow-hidden border-l-8 border-black/20" style="background-color: ${nb.color || '#C8B69B'}">
+            <div class="space-y-1 z-10">
+              <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded bg-black/20 text-white inline-block backdrop-blur-xs">${nb.subject}</span>
+              <h4 class="font-black text-white text-base leading-tight mt-1 drop-shadow-xs">${nb.title}</h4>
+            </div>
+            <div class="flex items-center justify-between text-white/80 text-[10px] font-bold z-10">
+              <span>${nb.pages ? nb.pages.length : 1} Seiten</span>
+              <button onclick="event.stopPropagation(); deleteNotebook(${nb.id})" class="p-1 hover:text-red-200"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </div>
+            <!-- Decorative Notebook Binding Lines -->
+            <div class="absolute inset-y-0 left-2 w-px bg-white/20"></div>
+          </div>
+          <p class="text-xs font-bold text-[var(--color-text,#34312D)] mt-2 text-center truncate w-full">${nb.title}</p>
+        `;
+        grid.appendChild(cover);
+      });
+      lucide.createIcons();
+    }
+
+    function promptCreateNotebook() {
+      const title = prompt("Titel des Notizbuchs:");
+      if (!title || !title.trim()) return;
+      const subject = prompt("Zugehöriges Schulfach / Kategorie:", "IT-Systeme") || "Allgemein";
+      const colors = ["#C8B69B", "#8D6E63", "#4F46E5", "#059669", "#D97706", "#DC2626", "#2563EB"];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+      const newNb = {
+        id: Date.now(),
+        title: title.trim(),
+        subject: subject.trim(),
+        color: randomColor,
+        pattern: "grid",
+        pages: [{ id: Date.now() + 1, drawingData: null, text: "" }]
+      };
+
+      appState.notebooks.push(newNb);
+      saveLocalStorage();
+      renderNotebookShelf();
+      renderDashboard();
+    }
+
+    function deleteNotebook(id) {
+      if (confirm("Notizbuch wirklich löschen?")) {
+        appState.notebooks = appState.notebooks.filter(n => n.id !== id);
+        saveLocalStorage();
+        renderNotebookShelf();
+        renderDashboard();
+      }
+    }
+
+    function openNotebookEditor(nbId) {
+      activeNotebookId = nbId;
+      activePageIdx = 0;
+      const nb = appState.notebooks.find(n => n.id === nbId);
+
+      document.getElementById("active-nb-title").innerText = nb.title;
+      document.getElementById("active-nb-subject").innerText = nb.subject;
+      document.getElementById("paper-pattern-select").value = nb.pattern || "grid";
+      changePaperPattern(nb.pattern || "grid", false);
+
+      document.getElementById("notebook-shelf-view").classList.add("hidden");
+      document.getElementById("notebook-editor-view").classList.remove("hidden");
+
+      setTimeout(() => {
+        resizeCanvas();
+        loadCanvasPage();
+      }, 50);
+    }
+
+    function closeNotebookEditor() {
+      saveCurrentCanvasPage();
+      document.getElementById("notebook-editor-view").classList.add("hidden");
+      document.getElementById("notebook-shelf-view").classList.remove("hidden");
+      renderNotebookShelf();
+    }
+
+    function initCanvas() {
+      canvas = document.getElementById("notebook-canvas");
+      ctx = canvas.getContext("2d");
+
+      window.addEventListener("resize", () => {
+        if (activeNotebookId) {
+          saveCurrentCanvasPage();
+          resizeCanvas();
+          loadCanvasPage();
+        }
+      });
+
+      // Mouse Events
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDrawing);
+      canvas.addEventListener("mouseleave", stopDrawing);
+
+      // Touch Events (iPad / Tablet Support)
+      canvas.addEventListener("touchstart", (e) => {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        startDrawing({ clientX: touch.clientX, clientY: touch.clientY, rect });
+        e.preventDefault();
+      });
+      canvas.addEventListener("touchmove", (e) => {
+        const touch = e.touches[0];
+        draw({ clientX: touch.clientX, clientY: touch.clientY });
+        e.preventDefault();
+      });
+      canvas.addEventListener("touchend", stopDrawing);
+    }
+
+    function resizeCanvas() {
+      if (!canvas) return;
+      const container = canvas.parentElement;
+      canvas.width = container.clientWidth - 16;
+      canvas.height = 550;
+    }
+
+    function setDrawingTool(tool) {
+      currentTool = tool;
+      document.querySelectorAll("#notebook-editor-view button[id^='tool-']").forEach(btn => {
+        btn.classList.remove("bg-[var(--color-accent,#C8B69B)]", "text-white");
+        btn.classList.add("text-[var(--color-muted,#81796F)]");
+      });
+      const activeBtn = document.getElementById(`tool-${tool}`);
+      if (activeBtn) {
+        activeBtn.classList.add("bg-[var(--color-accent,#C8B69B)]", "text-white");
+        activeBtn.classList.remove("text-[var(--color-muted,#81796F)]");
+      }
+    }
+
+    function setPenColor(color) {
+      currentPenColor = color;
+      if (currentTool === 'eraser') setDrawingTool('pen');
+    }
+
+    function changePaperPattern(pattern, save = true) {
+      const paperBg = document.getElementById("canvas-paper-bg");
+      paperBg.className = "absolute inset-2 rounded-xl pointer-events-none ";
+      if (pattern === 'grid') paperBg.classList.add("paper-pattern-grid");
+      else if (pattern === 'lines') paperBg.classList.add("paper-pattern-lines");
+      else if (pattern === 'dots') paperBg.classList.add("paper-pattern-dots");
+
+      if (save && activeNotebookId) {
+        const nb = appState.notebooks.find(n => n.id === activeNotebookId);
+        if (nb) { nb.pattern = pattern; saveLocalStorage(); }
+      }
+    }
+
+    function getCanvasCoords(e) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    }
+
+    function startDrawing(e) {
+      isDrawing = true;
+      const coords = getCanvasCoords(e);
+      lastX = coords.x;
+      lastY = coords.y;
+
+      // Click to Type Text directly on Canvas
+      if (currentTool === 'text') {
+        const textToType = prompt("Text zum Einfügen eingeben:");
+        if (textToType && textToType.trim()) {
+          ctx.font = "16px Inter, sans-serif";
+          ctx.fillStyle = currentPenColor;
+          ctx.fillText(textToType, coords.x, coords.y);
+          saveCurrentCanvasPage();
+        }
+        isDrawing = false;
+      }
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      const coords = getCanvasCoords(e);
+
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(coords.x, coords.y);
+
+      if (currentTool === 'pen') {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = currentPenColor;
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      } else if (currentTool === 'highlighter') {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = currentPenColor + '66'; // semi-transparent
+        ctx.lineWidth = 14;
+        ctx.lineCap = 'square';
+      } else if (currentTool === 'eraser') {
+        // Fix for Eraser: Eraser clears strokes on transparent canvas layer without wiping background paper pattern
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.lineWidth = 18;
+        ctx.lineCap = 'round';
+      }
+
+      ctx.stroke();
+      lastX = coords.x;
+      lastY = coords.y;
+    }
+
+    function stopDrawing() {
+      if (isDrawing) {
+        isDrawing = false;
+        ctx.globalCompositeOperation = 'source-over';
+        saveCurrentCanvasPage();
+      }
+    }
+
+    function clearCanvasPage() {
+      if (confirm("Möchtest du diese Zeichnung wirklich leeren?")) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        saveCurrentCanvasPage();
+      }
+    }
+
+    function saveCurrentCanvasPage() {
+      if (!activeNotebookId) return;
+      const nb = appState.notebooks.find(n => n.id === activeNotebookId);
+      if (!nb || !nb.pages[activePageIdx]) return;
+
+      nb.pages[activePageIdx].drawingData = canvas.toDataURL();
+      nb.pages[activePageIdx].text = document.getElementById("notebook-page-text").value;
+      saveLocalStorage();
+    }
+
+    function loadCanvasPage() {
+      if (!activeNotebookId) return;
+      const nb = appState.notebooks.find(n => n.id === activeNotebookId);
+      if (!nb) return;
+
+      document.getElementById("canvas-page-indicator").innerText = `Seite ${activePageIdx + 1} / ${nb.pages.length}`;
+      document.getElementById("notebook-page-text").value = nb.pages[activePageIdx] ? (nb.pages[activePageIdx].text || "") : "";
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (nb.pages[activePageIdx] && nb.pages[activePageIdx].drawingData) {
+        const img = new Image();
+        img.onload = function() {
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = nb.pages[activePageIdx].drawingData;
+      }
+    }
+
+    function saveCurrentPageText() {
+      if (!activeNotebookId) return;
+      const nb = appState.notebooks.find(n => n.id === activeNotebookId);
+      if (nb && nb.pages[activePageIdx]) {
+        nb.pages[activePageIdx].text = document.getElementById("notebook-page-text").value;
+        saveLocalStorage();
+      }
+    }
+
+    function prevCanvasPage() {
+      if (activePageIdx > 0) {
+        saveCurrentCanvasPage();
+        activePageIdx--;
+        loadCanvasPage();
+      }
+    }
+
+    function nextCanvasPage() {
+      const nb = appState.notebooks.find(n => n.id === activeNotebookId);
+      if (nb && activePageIdx < nb.pages.length - 1) {
+        saveCurrentCanvasPage();
+        activePageIdx++;
+        loadCanvasPage();
+      }
+    }
+
+    function addNewCanvasPage() {
+      saveCurrentCanvasPage();
+      const nb = appState.notebooks.find(n => n.id === activeNotebookId);
+      if (nb) {
+        nb.pages.push({ id: Date.now(), drawingData: null, text: "" });
+        activePageIdx = nb.pages.length - 1;
+        saveLocalStorage();
+        loadCanvasPage();
+      }
+    }
+
+    function deleteCanvasPage() {
+      const nb = appState.notebooks.find(n => n.id === activeNotebookId);
+      if (nb && nb.pages.length > 1) {
+        if (confirm("Möchtest du diese Seite wirklich löschen?")) {
+          nb.pages.splice(activePageIdx, 1);
+          if (activePageIdx >= nb.pages.length) activePageIdx = nb.pages.length - 1;
+          saveLocalStorage();
+          loadCanvasPage();
+        }
+      } else {
+        alert("Ein Notizbuch muss mindestens eine Seite enthalten.");
+      }
+    }
+
+    function exportCanvasPNG() {
+      saveCurrentCanvasPage();
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = `notiz_seite_${activePageIdx + 1}.png`;
+      a.click();
+    }
+
+    // ================= SUBJECTS GRID FUNCTIONS =================
     function renderSubjectsGrid() {
       const container = document.getElementById("subjects-grid");
       container.innerHTML = "";
@@ -966,7 +1461,7 @@
       }
     }
 
-    // TASKS LOGIC
+    // ================= TASKS LOGIC =================
     function renderTasks() {
       const openCont = document.getElementById("open-tasks-list");
       const compCont = document.getElementById("comp-tasks-list");
@@ -1128,6 +1623,7 @@
           if (imported.subjects && imported.tasks) {
             appState = imported;
             if (!appState.themeColors) appState.themeColors = defaultData.themeColors;
+            if (!appState.notebooks) appState.notebooks = defaultData.notebooks;
             saveLocalStorage();
             applyThemeToDOM();
             renderAll();
@@ -1144,7 +1640,7 @@
 
     function confirmResetAllData() {
       if (confirm("Möchtest du wirklich alle Daten löschen?")) {
-        localStorage.removeItem("northstar_office_classic_data");
+        localStorage.removeItem("northstar_office_classic_notebook_data");
         appState = JSON.parse(JSON.stringify(defaultData));
         saveLocalStorage();
         applyThemeToDOM();
@@ -1157,7 +1653,7 @@
       return new Date().toISOString().split('T')[0];
     }
 
-    // FOCUS TIMER LOGIC
+    // ================= FOCUS TIMER LOGIC =================
     let timerMins = 25, timerSecs = 0, timerInterval = null, timerRunning = false;
     function toggleTimer() {
       const icon = document.getElementById("timer-icon");
